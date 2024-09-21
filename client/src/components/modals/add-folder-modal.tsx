@@ -7,7 +7,7 @@ export default function AddFolderModal() {
   return (
     <Dialog>
       <DialogTrigger>
-        <div className="flex h-32 flex-col items-center justify-center space-y-2 rounded-md border p-3 text-muted-foreground transition-all hover:bg-secondary/30 hover:text-foreground">
+        <div className="flex h-44 flex-col items-center justify-center space-y-2 rounded-md border p-3 text-muted-foreground transition-all hover:bg-secondary/30 hover:text-foreground">
           <PlusCircleIcon size={40} />
           <p className="font-medium">Add New Folder</p>
         </div>
