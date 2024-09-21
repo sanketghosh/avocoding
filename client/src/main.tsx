@@ -1,15 +1,26 @@
-import ThemeWrapper from "@/components/wrappers/theme-wrapper.tsx";
+// PACKAGES
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
-import App from "./App.tsx";
-import "./index.css";
+
+// COMPONENTS
+import App from "@/App.tsx";
+import {
+  AuthContextWrapper,
+  QueryClientWrapper,
+  ThemeWrapper,
+} from "@/components/wrappers";
+import "@/index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeWrapper>
-      <Toaster position="bottom-right" reverseOrder={false} />
-      <App />
-    </ThemeWrapper>
+    <AuthContextWrapper>
+      <ThemeWrapper>
+        <QueryClientWrapper>
+          <Toaster position="bottom-right" reverseOrder={false} />
+          <App />
+        </QueryClientWrapper>
+      </ThemeWrapper>
+    </AuthContextWrapper>
   </StrictMode>,
 );

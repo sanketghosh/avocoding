@@ -1,3 +1,18 @@
+// PACKAGES
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { Loader2Icon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import * as z from "zod";
+
+// LOCAL MODULES
+import * as loginUserHandler from "@/actions/auth-actions/login-action";
+import { useAuthContext } from "@/providers/auth-provider";
+import { LoginSchema } from "@/schemas";
+
+// COMPONENTS
 import AuthCardWrapper from "@/components/cards/auth-card-wrapper";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,13 +24,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoginSchema } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import * as z from "zod";
+import { DEFAULT_AUTH_REDIRECT_ROUTE } from "@/constants";
 
 export default function LoginForm() {
+  const navigate = useNavigate();
+  const { updateUser } = useAuthContext();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -24,9 +38,21 @@ export default function LoginForm() {
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: loginUserHandler.loginUserHandler,
+    onSuccess: async (data) => {
+      toast.success(data.message);
+      updateUser(data);
+      navigate(`${DEFAULT_AUTH_REDIRECT_ROUTE}`);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
   const formSubmitHandler = (values: z.infer<typeof LoginSchema>) => {
-    // mutation.mutate(values);
-    console.log(values);
+    mutation.mutate(values);
+    // console.log(values);
   };
 
   // handles auto filling fields with guest user details
@@ -64,7 +90,7 @@ export default function LoginForm() {
                       {...field}
                       placeholder="johndoe@mail.com"
                       type="email"
-                      // disabled={mutation.isPending}
+                      disabled={mutation.isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -82,7 +108,7 @@ export default function LoginForm() {
                       {...field}
                       placeholder="nD9I1xTod6mN31"
                       type="password"
-                      // disabled={mutation.isPending}
+                      disabled={mutation.isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -90,7 +116,13 @@ export default function LoginForm() {
               )}
             />
           </div>
-          <Button className="mt-4 w-full">Login</Button>
+          <Button className="mt-4 w-full">
+            {mutation.isPending ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              "Login"
+            )}
+          </Button>
           <Button
             type="button"
             className="mt-4 w-full"

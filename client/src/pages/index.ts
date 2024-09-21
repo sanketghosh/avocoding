@@ -1,5 +1,6 @@
-import Auth from "./auth";
-import Home from "./home";
+import Auth from "@/pages/auth";
+import Dashboard from "@/pages/dashboard";
+import Home from "@/pages/home";
 
-export { Auth, Home };
+export { Auth, Dashboard, Home };
 
