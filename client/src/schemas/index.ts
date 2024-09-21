@@ -37,3 +37,22 @@ export const LoginSchema = z.object({
     message: "Must be of atleast six characters.",
   }),
 });
+
+// ADD FOLDER
+export const AddFolderSchema = z.object({
+  title: z
+    .string()
+    .min(2, {
+      message: "Minimum 2 characters is required.",
+    })
+    .max(20, {
+      message: "Maximum 15 characters are required.",
+    }),
+  description: z
+    .string()
+    .min(2, { message: "Minimum 2 characters are needed." })
+    .max(40, {
+      message: "Maximum 25 characters are needed.",
+    }),
+  emoji: z.string(),
+});
