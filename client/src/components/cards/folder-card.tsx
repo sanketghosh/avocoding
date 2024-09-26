@@ -1,5 +1,13 @@
+// packages
 import { Link } from "react-router-dom";
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
+
+// components
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 type FolderCardProps = {
   title: string;

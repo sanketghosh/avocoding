@@ -1,11 +1,16 @@
-import { AddFolderSchema } from "@/schemas";
+// packages
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleOffIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Button } from "../ui/button";
+
+// local modules
+import { AddFolderSchema } from "@/schemas";
+
+// components
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,9 +18,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function AddFolderForm() {
   const form = useForm<z.infer<typeof AddFolderSchema>>({

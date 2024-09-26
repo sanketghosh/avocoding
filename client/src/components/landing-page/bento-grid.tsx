@@ -1,11 +1,11 @@
-// COMPONENTS
-import HomeLink from "@/components/links/home-link";
-import { buttonVariants } from "@/components/ui/button";
-
 // PACKAGES
 import { cn } from "@/lib/utils";
 import { AppWindowIcon, CodeIcon, PackageIcon, ZapIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+
+// COMPONENTS
+import HomeLink from "@/components/links/home-link";
+import { buttonVariants } from "@/components/ui/button";
 
 export default function BentoGrid() {
   return (

@@ -56,3 +56,10 @@ export const AddFolderSchema = z.object({
     }),
   emoji: z.string(),
 });
+
+// ADD QUESTION
+export const AddQuestionSchema = z.object({
+  title: z.string().min(2, {
+    message: "Minimum two characters are needed in question title.",
+  }),
+});
