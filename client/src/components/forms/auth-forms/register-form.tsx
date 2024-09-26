@@ -1,6 +1,7 @@
 // PACKAGES
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +9,7 @@ import * as z from "zod";
 
 // LOCAL MODULES
 import * as registerUserHandler from "@/actions/auth-actions/register-action";
+import { DEFAULT_AUTH_REDIRECT_ROUTE } from "@/constants";
 import { RegisterSchema } from "@/schemas";
 
 // COMPONENTS
@@ -22,7 +24,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Loader2Icon } from "lucide-react";
 
 export default function RegisterForm() {
   const navigate = useNavigate();

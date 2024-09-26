@@ -4,15 +4,17 @@ import { Link } from "react-router-dom";
 type HomeLinkProps = {
   iconStyle?: string;
   textStyle?: string;
+  linkHref: string;
 } & React.ComponentPropsWithRef<"a">;
 
 export default function HomeLink({
   iconStyle,
   textStyle,
   className,
+  linkHref = "/",
 }: HomeLinkProps) {
   return (
-    <Link to={"/"} className={cn("flex items-center gap-0.5", className)}>
+    <Link to={linkHref} className={cn("flex items-center gap-0.5", className)}>
       <svg
         stroke="currentColor"
         fill="currentColor"

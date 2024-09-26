@@ -1,8 +1,17 @@
-import { MainLayout } from "@/layouts";
-import { Auth, Dashboard, Home, Profile } from "@/pages";
-import ProtectedRoute from "@/protected/protected-route";
+// packages
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { AfterAuthRedirectRoute } from "./protected";
+
+// components
+import { MainLayout } from "@/layouts";
+import {
+  Auth,
+  CodeEditor,
+  Dashboard,
+  Home,
+  Profile,
+  QuestionsList,
+} from "@/pages";
+import { AfterAuthRedirectRoute, ProtectedRoute } from "@/protected";
 
 export default function App() {
   return (
@@ -30,6 +39,26 @@ export default function App() {
             <ProtectedRoute>
               <MainLayout>
                 <Dashboard />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/folder/:id"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <QuestionsList />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/question/:id"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <CodeEditor />
               </MainLayout>
             </ProtectedRoute>
           }

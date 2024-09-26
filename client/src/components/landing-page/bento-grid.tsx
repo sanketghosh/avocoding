@@ -19,6 +19,7 @@ export default function BentoGrid() {
                   <div className="relative col-span-full flex overflow-hidden rounded-xl border bg-gradient-to-br from-rose-500 to-yellow-400 p-8 text-background transition-all lg:col-span-2">
                     <div className="relative flex size-fit h-full w-full flex-col items-center justify-center space-y-3">
                       <HomeLink
+                        linkHref="/"
                         iconStyle="size-9"
                         textStyle="text-4xl font-bold"
                       />

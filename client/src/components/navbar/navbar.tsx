@@ -15,6 +15,7 @@ export default function Navbar() {
     <nav className="h-14 w-full border-b">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4">
         <HomeLink
+          linkHref="/dashboard"
           iconStyle="size-7 md:size-5"
           textStyle="hidden md:block md:font-semibold"
         />
