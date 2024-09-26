@@ -1,6 +1,5 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,7 +17,56 @@ model User {
   avatar    String?
   userAbout String?
 
+  folders Folder[] @relation("UserFolders") // Relation to folders
+
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
+}
+
+model Folder {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+
+  user   User   @relation("UserFolders", fields: [userId], references: [id])
+  userId String
+
+  questions Question[] @relation("FolderQuestions")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("folders")
+}
+
+model Question {
+  id               String  @id @default(cuid())
+  title            String
+  problemStatement String?
+
+  folder   Folder @relation("FolderQuestions", fields: [folderId], references: [id])
+  folderId String
+
+  code   Code?   @relation("CodeQuestion", fields: [codeId], references: [id])
+  codeId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("questions")
+}
+
+model Code {
+  id       String @id @default(cuid())
+  langauge String
+  content  String
+
+  question Question? @relation("CodeQuestion")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("code")
 }

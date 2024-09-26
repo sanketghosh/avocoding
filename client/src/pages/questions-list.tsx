@@ -1,3 +1,4 @@
+// components
 import QuestionCard from "@/components/cards/question-card";
 import AddQuestionModal from "@/components/modals/add-question-modal";
 
