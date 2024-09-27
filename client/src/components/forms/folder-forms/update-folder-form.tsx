@@ -1,16 +1,3 @@
-// packages
-import * as createFolderHandler from "@/actions/folder-actions/create-folder-action";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleOffIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
-// local modules
-import { AddFolderSchema } from "@/schemas";
-
-// components
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -26,42 +13,35 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { FolderSchema } from "@/schemas";
+import { CreatedFolderType } from "@/types";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { useMutation } from "@tanstack/react-query";
+import { CircleOffIcon, Loader2Icon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-export default function AddFolderForm() {
-  const queryClient = useQueryClient();
+type UpdateFolderFormProps = {
+  folderData: CreatedFolderType;
+};
 
-  const form = useForm<z.infer<typeof AddFolderSchema>>({
-    resolver: zodResolver(AddFolderSchema),
+export default function UpdateFolderForm({
+  folderData,
+}: UpdateFolderFormProps) {
+  const form = useForm<z.infer<typeof FolderSchema>>({
     defaultValues: {
-      title: "",
-      description: "",
-      emoji: "",
+      title: folderData.title,
+      description: folderData.description,
+      emoji: folderData.emoji,
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: createFolderHandler.createFolderHandler,
-    onSuccess: async (data) => {
-      toast.success(data.message);
-      await queryClient.invalidateQueries({
-        queryKey: ["get-all-folder"],
-      });
-    },
-    onError: (data) => {
-      toast.error(data.message);
-    },
-  });
-
-  const handleCreateForm = (values: z.infer<typeof AddFolderSchema>) => {
-    // console.log(values);
-    mutation.mutate(values);
-  };
+  const mutation = useMutation({});
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleCreateForm)}>
+      <form>
         <div className="space-y-4">
           <FormField
             control={form.control}

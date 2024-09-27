@@ -1,5 +1,5 @@
 // packages
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // components
 import {
@@ -16,9 +16,20 @@ type FolderCardProps = {
 };
 
 export default function FolderCard({ folderData }: FolderCardProps) {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate(`/folder/${encodeId(folderData.id)}`, {
+      state: {
+        data: {
+          folderData,
+        },
+      },
+    });
+  };
+
   return (
-    <Link to={`/folder/${encodeId(folderData.id)}`} className="">
-      <Card className="flex h-44 w-full cursor-pointer select-none flex-col items-center justify-center transition-all hover:bg-secondary/30">
+    <div onClick={handleNavigate} role="button">
+      <Card className="flex h-44 w-full cursor-pointer select-none flex-col items-start justify-center transition-all hover:bg-secondary/30">
         <CardHeader className="">
           <CardTitle className="text-3xl">{folderData.emoji}</CardTitle>
           <CardTitle>{folderData.title}</CardTitle>
@@ -27,6 +38,6 @@ export default function FolderCard({ folderData }: FolderCardProps) {
           </CardDescription>
         </CardHeader>
       </Card>
-    </Link>
+    </div>
   );
 }

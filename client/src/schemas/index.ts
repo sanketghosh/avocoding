@@ -39,7 +39,7 @@ export const LoginSchema = z.object({
 });
 
 // ADD FOLDER
-export const AddFolderSchema = z.object({
+export const FolderSchema = z.object({
   title: z
     .string()
     .min(2, {

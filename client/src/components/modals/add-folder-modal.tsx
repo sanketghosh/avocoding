@@ -1,7 +1,10 @@
+// PACKAGES
 import { PlusCircleIcon } from "lucide-react";
-import AddFolderForm from "../forms/add-folder-form";
-import { Dialog, DialogTrigger } from "../ui/dialog";
-import ModalContentWrapper from "./modal-content-wrapper";
+
+// COMPONENTS
+import AddFolderForm from "@/components/forms/folder-forms/add-folder-form";
+import ModalContentWrapper from "@/components/modals/modal-content-wrapper";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 export default function AddFolderModal() {
   return (

@@ -1,7 +1,6 @@
 import {
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -24,7 +23,6 @@ export default function ModalContentWrapper({
         <DialogDescription>{modalDescription}</DialogDescription>
       </DialogHeader>
       {children}
-      <DialogFooter></DialogFooter>
     </DialogContent>
   );
 }

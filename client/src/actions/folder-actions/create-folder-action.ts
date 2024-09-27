@@ -1,10 +1,10 @@
 import { API_BASE_URL } from "@/constants";
 import { ApiError } from "@/lib/handle-api-error";
-import { AddFolderSchema } from "@/schemas";
+import { FolderSchema } from "@/schemas";
 import * as z from "zod";
 
 export const createFolderHandler = async (
-  formData: z.infer<typeof AddFolderSchema>,
+  formData: z.infer<typeof FolderSchema>,
 ) => {
   try {
     const response = await fetch(
