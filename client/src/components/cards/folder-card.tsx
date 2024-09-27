@@ -8,27 +8,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { CreatedFolderType } from "@/types";
 
 type FolderCardProps = {
-  title: string;
-  description: string;
+  folderData: CreatedFolderType;
 };
 
-export default function FolderCard({ description, title }: FolderCardProps) {
+export default function FolderCard({ folderData }: FolderCardProps) {
   return (
-    <Link to={"/folder/sdsadad"} className="">
-      {/* <h1 className="w-full text-left text-5xl">😃</h1>
-      <h2 className="w-full text-left text-lg font-semibold">{title}</h2>
-      <p className="line-clamp-2 text-left text-sm text-foreground/80">
-        {description}
-      </p> */}
-
+    <Link to={`/folder/${folderData.id}`} className="">
       <Card className="flex h-44 w-full cursor-pointer select-none flex-col items-center justify-center transition-all hover:bg-secondary/30">
         <CardHeader className="">
-          <CardTitle className="text-3xl">😃</CardTitle>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className="text-3xl">{folderData.emoji}</CardTitle>
+          <CardTitle>{folderData.title}</CardTitle>
           <CardDescription className="line-clamp-2">
-            {description}
+            {folderData.description}
           </CardDescription>
         </CardHeader>
       </Card>

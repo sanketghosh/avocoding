@@ -51,7 +51,7 @@ export const AddFolderSchema = z.object({
   description: z
     .string()
     .min(2, { message: "Minimum 2 characters are needed." })
-    .max(40, {
+    .max(140, {
       message: "Maximum 25 characters are needed.",
     }),
   emoji: z.string(),

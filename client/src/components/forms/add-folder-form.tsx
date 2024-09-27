@@ -26,10 +26,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 export default function AddFolderForm() {
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof AddFolderSchema>>({
     resolver: zodResolver(AddFolderSchema),
     defaultValues: {
@@ -43,6 +45,9 @@ export default function AddFolderForm() {
     mutationFn: createFolderHandler.createFolderHandler,
     onSuccess: async (data) => {
       toast.success(data.message);
+      await queryClient.invalidateQueries({
+        queryKey: ["get-all-folder"],
+      });
     },
     onError: (data) => {
       toast.error(data.message);
