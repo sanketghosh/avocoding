@@ -1,10 +1,17 @@
-import FolderCard from "@/components/cards/folder-card";
+import * as getFoldersHandler from "@/actions/folder-actions/get-folders-action";
 import AddFolderModal from "@/components/modals/add-folder-modal";
-import { data } from "@/data";
 import { useAuthContext } from "@/providers/auth-provider";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Dashboard() {
   const { user } = useAuthContext();
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["all-folder"],
+    queryFn: getFoldersHandler.getFoldersHandler,
+  });
+
+  console.log(data);
 
   return (
     <div>
@@ -12,13 +19,13 @@ export default function Dashboard() {
       <div className="w-full py-4">
         <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <AddFolderModal />
-          {data.map((folder) => (
+          {/* {data.map((folder) => (
             <FolderCard
               description={folder.desc}
               title={folder.title}
               key={folder.id}
             />
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

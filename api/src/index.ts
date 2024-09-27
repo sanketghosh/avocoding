@@ -7,7 +7,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDoc from "./swagger.json";
 
 // imported routes
-import { authRoutes } from "./routes";
+import { authRoutes, folderRoutes } from "./routes";
 
 // port
 const PORT = process.env.PORT || 8000;
@@ -28,6 +28,7 @@ app.use(
 
 // routes
 app.use("/api/v1", authRoutes);
+app.use("/api/v1", folderRoutes);
 
 // swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));

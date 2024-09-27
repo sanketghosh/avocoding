@@ -26,6 +26,7 @@ app.use((0, cors_1.default)({
 }));
 // routes
 app.use("/api/v1", routes_1.authRoutes);
+app.use("/api/v1", routes_1.folderRoutes);
 // swagger
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
 // app listener

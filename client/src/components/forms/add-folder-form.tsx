@@ -1,4 +1,5 @@
 // packages
+import * as createFolderHandler from "@/actions/folder-actions/create-folder-action";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +26,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export default function AddFolderForm() {
   const form = useForm<z.infer<typeof AddFolderSchema>>({
@@ -36,8 +39,19 @@ export default function AddFolderForm() {
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: createFolderHandler.createFolderHandler,
+    onSuccess: async (data) => {
+      toast.success(data.message);
+    },
+    onError: (data) => {
+      toast.error(data.message);
+    },
+  });
+
   const handleCreateForm = (values: z.infer<typeof AddFolderSchema>) => {
-    console.log(values);
+    // console.log(values);
+    mutation.mutate(values);
   };
 
   return (
