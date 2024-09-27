@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { encodeId } from "@/lib/url-encode-decode";
 import { CreatedFolderType } from "@/types";
 
 type FolderCardProps = {
@@ -16,7 +17,7 @@ type FolderCardProps = {
 
 export default function FolderCard({ folderData }: FolderCardProps) {
   return (
-    <Link to={`/folder/${folderData.id}`} className="">
+    <Link to={`/folder/${encodeId(folderData.id)}`} className="">
       <Card className="flex h-44 w-full cursor-pointer select-none flex-col items-center justify-center transition-all hover:bg-secondary/30">
         <CardHeader className="">
           <CardTitle className="text-3xl">{folderData.emoji}</CardTitle>

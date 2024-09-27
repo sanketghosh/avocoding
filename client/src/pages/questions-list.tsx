@@ -4,9 +4,9 @@ import AddQuestionModal from "@/components/modals/add-question-modal";
 
 export default function QuestionsList() {
   return (
-    <div>
+    <div className="space-y-4">
       <Header />
-      <div className="w-full py-4">
+      <div className="w-full">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <AddQuestionModal />
           {[1, 2, 3, 4, 5, 6, 7, 11, 12, 14].map((item, idx) => (
@@ -26,7 +26,7 @@ export default function QuestionsList() {
 
 function Header() {
   return (
-    <div className="space-y-3 border-b pb-4">
+    <div className="border-b pb-4">
       <h1 className="text-xl font-semibold md:text-2xl lg:text-3xl">
         Folder name goes here
       </h1>

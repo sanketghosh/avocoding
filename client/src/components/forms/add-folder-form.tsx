@@ -76,6 +76,7 @@ export default function AddFolderForm() {
                         type="button"
                         variant={"outline"}
                         className="h-32 w-full"
+                        disabled={mutation.isPending}
                       >
                         {form.watch("emoji") ? (
                           <div className="flex flex-col items-center gap-2">
@@ -117,7 +118,12 @@ export default function AddFolderForm() {
               <FormItem>
                 <FormLabel>Folder Title</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="OOPs Practice" type="text" />
+                  <Input
+                    {...field}
+                    placeholder="OOPs Practice"
+                    disabled={mutation.isPending}
+                    type="text"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -133,6 +139,7 @@ export default function AddFolderForm() {
                   <Input
                     {...field}
                     placeholder="For practicing OOPs related problem in the easiest way possible."
+                    disabled={mutation.isPending}
                     type="text"
                   />
                 </FormControl>
@@ -141,8 +148,16 @@ export default function AddFolderForm() {
             )}
           />
         </div>
-        <Button className="mt-4 w-full" type="submit">
-          Create Folder
+        <Button
+          className="mt-4 w-full"
+          type="submit"
+          disabled={mutation.isPending}
+        >
+          {mutation.isPending ? (
+            <Loader2Icon className="animate-spin" />
+          ) : (
+            "Create Folder"
+          )}
         </Button>
       </form>
     </Form>

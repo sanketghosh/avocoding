@@ -1,10 +1,10 @@
-// LOCAL MODULES
-import { AddQuestionSchema } from "@/schemas";
-
 // PACKAGES
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+
+// LOCAL MODULES
+import { AddQuestionSchema } from "@/schemas";
 
 // COMPONENTS
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useMutation } from "@tanstack/react-query";
+import { Loader2Icon } from "lucide-react";
 
 export default function AddQuestionForm() {
   const form = useForm<z.infer<typeof AddQuestionSchema>>({
@@ -25,6 +27,8 @@ export default function AddQuestionForm() {
       title: "",
     },
   });
+
+  const mutation = useMutation({});
 
   const handleCreateQuestion = (values: z.infer<typeof AddQuestionSchema>) => {
     console.log(values);
@@ -53,7 +57,17 @@ export default function AddQuestionForm() {
             </FormItem>
           )}
         />
-        <Button className="w-full">Create Question</Button>
+        <Button
+          className="mt-4 w-full"
+          type="submit"
+          disabled={mutation.isPending}
+        >
+          {mutation.isPending ? (
+            <Loader2Icon className="animate-spin" />
+          ) : (
+            "Create Question"
+          )}
+        </Button>
       </form>
     </Form>
   );

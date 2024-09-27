@@ -20,7 +20,7 @@ export default function QuestionCard({ slNo, title }: QuestionCardProps) {
       <Card className="flex h-36 w-full cursor-pointer select-none flex-col items-center justify-center transition-all hover:bg-secondary/30">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">
-            {slNo < 9 ? "0" + slNo : slNo}
+            {slNo < 10 ? "0" + slNo : slNo}
           </CardTitle>
           <CardDescription className="line-clamp-2 text-foreground">
             {title}

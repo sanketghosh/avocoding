@@ -116,7 +116,7 @@ export default function LoginForm() {
               )}
             />
           </div>
-          <Button className="mt-4 w-full">
+          <Button className="mt-4 w-full" disabled={mutation.isPending}>
             {mutation.isPending ? (
               <Loader2Icon className="animate-spin" />
             ) : (
