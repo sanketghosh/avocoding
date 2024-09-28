@@ -1,6 +1,6 @@
 // packages
 import { ChevronLeftIcon } from "lucide-react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // local modules
 import { cn } from "@/lib/utils";
@@ -13,19 +13,18 @@ import DeleteFolderModal from "@/components/modals/delete-folder-modal";
 import UpdateFolderModal from "@/components/modals/update-folder-modal";
 import { buttonVariants } from "@/components/ui/button";
 import { decodeId } from "@/lib/url-encode-decode";
+import { useFolderStore } from "@/store/folder-store";
 
 export default function QuestionsList() {
-  const location = useLocation();
-  const {
-    data: { folderData },
-  } = location.state || {};
-
-  console.log(folderData);
-
   const { id } = useParams<{ id: string }>();
   // console.log(id);
   const decodedFolderId = decodeId(id!);
+  const { folders } = useFolderStore();
   // console.log(decodedFolderId);
+
+  const folderData = folders?.find((folder) => folder.id === decodedFolderId);
+
+  if (!folderData) return <p>Folder not found.</p>;
 
   return (
     <div className="space-y-4">

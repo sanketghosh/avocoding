@@ -11,16 +11,25 @@ import { CreatedFolderType } from "@/types";
 import FolderCard from "@/components/cards/folder-card";
 import AddFolderModal from "@/components/modals/add-folder-modal";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useFolderStore } from "@/store/folder-store";
+import { useEffect } from "react";
 
 export default function Dashboard() {
   const { user } = useAuthContext();
+  const { folders, setFolders } = useFolderStore();
 
-  const { data, isLoading, error } = useQuery({
+  const { isLoading, error, isSuccess, data } = useQuery({
     queryKey: ["get-all-folder"],
     queryFn: getFoldersHandler.getFoldersHandler,
     staleTime: 5000,
     // refetchOnWindowFocus: true,
   });
+
+  useEffect(() => {
+    if (isSuccess && data?.data) {
+      setFolders(data?.data);
+    }
+  }, [isSuccess, data, setFolders]);
 
   // console.log(data);
 
@@ -44,7 +53,7 @@ export default function Dashboard() {
               ))
             ) : (
               <>
-                {data?.data?.map((folder: CreatedFolderType) => (
+                {folders?.map((folder: CreatedFolderType) => (
                   <FolderCard folderData={folder} key={folder.id} />
                 ))}
               </>

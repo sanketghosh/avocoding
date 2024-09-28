@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { FolderSchema } from "@/schemas";
+import { useFolderStore } from "@/store/folder-store";
 import { CreatedFolderType } from "@/types";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
@@ -34,6 +35,7 @@ export default function UpdateFolderForm({
   folderId,
 }: UpdateFolderFormProps) {
   const queryClient = useQueryClient();
+  const { updateFolder } = useFolderStore();
 
   const form = useForm<z.infer<typeof FolderSchema>>({
     defaultValues: {
@@ -47,6 +49,7 @@ export default function UpdateFolderForm({
     mutationFn: updateFolderDetailsHandler.updateFolderDetailsHandler,
     onSuccess: async (data) => {
       toast.success(data.message);
+      updateFolder(folderId, form.getValues());
       await queryClient.invalidateQueries({
         queryKey: ["get-all-folder"],
       });
