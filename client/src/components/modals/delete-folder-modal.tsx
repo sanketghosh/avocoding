@@ -9,7 +9,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 export default function DeleteFolderModal() {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
           size={"icon"}
           variant={"secondary"}

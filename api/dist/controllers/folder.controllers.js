@@ -104,7 +104,68 @@ exports.createFolderHandler = createFolderHandler;
  * @param req
  * @param res
  */
-const updateFolderDetailsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const updateFolderDetailsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.userId;
+        const { folderId } = req.params;
+        const { title, description, emoji } = req.body;
+        // check if user is authenticated
+        if (!userId) {
+            return res.status(401).json({
+                message: "ERROR! User is not authorized.",
+            });
+        }
+        // validate folderID exists in the request
+        if (!folderId) {
+            return res.status(400).json({
+                message: "ERROR! Folder ID is required.",
+            });
+        }
+        // find the folder and check if it belongs to the user
+        const folder = yield prisma_1.db.folder.findUnique({
+            where: {
+                id: folderId,
+            },
+            select: {
+                userId: true,
+            },
+        });
+        // if folder not found send error
+        if (!folder) {
+            return res.status(404).json({
+                message: "ERROR! Folder has not been found.",
+            });
+        }
+        // check if the folder belongs to the curreny user
+        if (folder.userId !== userId) {
+            return res.status(403).json({
+                message: "ERROR! You are not authorized to update this folder.",
+            });
+        }
+        // update folder details
+        const updateFolder = yield prisma_1.db.folder.update({
+            where: {
+                id: folderId,
+            },
+            data: {
+                title: title,
+                description: description,
+                emoji: emoji,
+            },
+        });
+        // return data
+        return res.status(200).json({
+            message: "SUCCESS! Folder details have been updated",
+            data: updateFolder,
+        });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "ERROR! Something went wrong. Internal server error",
+        });
+    }
+});
 exports.updateFolderDetailsHandler = updateFolderDetailsHandler;
 /**
  *

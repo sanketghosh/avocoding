@@ -47,10 +47,10 @@ model Question {
   title            String
   problemStatement String?
 
-  folder   Folder @relation("FolderQuestions", fields: [folderId], references: [id])
+  folder   Folder @relation("FolderQuestions", fields: [folderId], references: [id], onDelete: Cascade)
   folderId String
 
-  code   Code?   @relation("CodeQuestion", fields: [codeId], references: [id])
+  code   Code?   @relation("CodeQuestion", fields: [codeId], references: [id], onDelete: Cascade)
   codeId String? @unique
 
   createdAt DateTime @default(now())

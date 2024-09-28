@@ -12,10 +12,12 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 type UpdateFolderModalProps = {
   folderData: CreatedFolderType;
+  folderId: string;
 };
 
 export default function UpdateFolderModal({
   folderData,
+  folderId,
 }: UpdateFolderModalProps) {
   return (
     <Dialog>
@@ -28,7 +30,7 @@ export default function UpdateFolderModal({
         modalTitle="Update folder details"
         modalDescription="Here you can update the details of the folder."
       >
-        <UpdateFolderForm folderData={folderData} />
+        <UpdateFolderForm folderData={folderData} folderId={folderId} />
       </ModalContentWrapper>
     </Dialog>
   );

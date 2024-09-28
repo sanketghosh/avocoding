@@ -20,10 +20,14 @@ folderRouter.get("/folders", verifyTokenHandler, getAllFoldersHandler);
 folderRouter.post("/create-folder", verifyTokenHandler, createFolderHandler);
 
 //
-folderRouter.put("/update-folder-details", updateFolderDetailsHandler);
+folderRouter.put(
+  "/update-folder-details/:folderId",
+  verifyTokenHandler,
+  updateFolderDetailsHandler,
+);
 
 //
-folderRouter.delete("/delete-folder", deleteFolderHandler);
+folderRouter.delete("/delete-folder", verifyTokenHandler, deleteFolderHandler);
 
 router.use("/folder", folderRouter);
 

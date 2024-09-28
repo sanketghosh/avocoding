@@ -1,6 +1,6 @@
 // packages
 import { ChevronLeftIcon } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 // local modules
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ import AddQuestionModal from "@/components/modals/add-question-modal";
 import DeleteFolderModal from "@/components/modals/delete-folder-modal";
 import UpdateFolderModal from "@/components/modals/update-folder-modal";
 import { buttonVariants } from "@/components/ui/button";
+import { decodeId } from "@/lib/url-encode-decode";
 
 export default function QuestionsList() {
   const location = useLocation();
@@ -20,6 +21,11 @@ export default function QuestionsList() {
   } = location.state || {};
 
   console.log(folderData);
+
+  const { id } = useParams<{ id: string }>();
+  // console.log(id);
+  const decodedFolderId = decodeId(id!);
+  // console.log(decodedFolderId);
 
   return (
     <div className="space-y-4">
@@ -36,7 +42,7 @@ export default function QuestionsList() {
         <ChevronLeftIcon size={18} />
         <p>Dashboard</p>
       </Link>
-      <Header folderData={folderData} />
+      <Header folderData={folderData} folderId={decodedFolderId} />
       <div className="w-full">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <AddQuestionModal />
@@ -57,9 +63,10 @@ export default function QuestionsList() {
 
 type HeaderProps = {
   folderData: CreatedFolderType;
+  folderId: string;
 };
 
-function Header({ folderData }: HeaderProps) {
+function Header({ folderData, folderId }: HeaderProps) {
   return (
     <div className="flex flex-col justify-between gap-3 border-b pb-4 md:flex-row md:items-center">
       <div>
@@ -68,13 +75,11 @@ function Header({ folderData }: HeaderProps) {
           <h2>{folderData.title}</h2>
         </div>
         <p className="max-w-3xl font-medium text-muted-foreground">
-          {folderData.description} Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Veritatis ea aliquam possimus nam, minima facilis et
-          natus nisi voluptatibus tempora?
+          {folderData.description}
         </p>
       </div>
       <div className="flex items-center gap-3">
-        <UpdateFolderModal folderData={folderData} />
+        <UpdateFolderModal folderData={folderData} folderId={folderId} />
         <DeleteFolderModal />
       </div>
     </div>

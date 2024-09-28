@@ -15,8 +15,8 @@ folderRouter.get("/folders", verify_token_middleware_1.verifyTokenHandler, folde
 //
 folderRouter.post("/create-folder", verify_token_middleware_1.verifyTokenHandler, folder_controllers_1.createFolderHandler);
 //
-folderRouter.put("/update-folder-details", folder_controllers_1.updateFolderDetailsHandler);
+folderRouter.put("/update-folder-details/:folderId", verify_token_middleware_1.verifyTokenHandler, folder_controllers_1.updateFolderDetailsHandler);
 //
-folderRouter.delete("/delete-folder", folder_controllers_1.deleteFolderHandler);
+folderRouter.delete("/delete-folder", verify_token_middleware_1.verifyTokenHandler, folder_controllers_1.deleteFolderHandler);
 router.use("/folder", folderRouter);
 exports.default = router;

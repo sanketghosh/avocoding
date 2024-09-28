@@ -1,3 +1,4 @@
+import * as updateFolderDetailsHandler from "@/actions/folder-actions/update-folder-details-action";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,18 +18,23 @@ import { FolderSchema } from "@/schemas";
 import { CreatedFolderType } from "@/types";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleOffIcon, Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import * as z from "zod";
 
 type UpdateFolderFormProps = {
   folderData: CreatedFolderType;
+  folderId: string;
 };
 
 export default function UpdateFolderForm({
   folderData,
+  folderId,
 }: UpdateFolderFormProps) {
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof FolderSchema>>({
     defaultValues: {
       title: folderData.title,
@@ -37,11 +43,29 @@ export default function UpdateFolderForm({
     },
   });
 
-  const mutation = useMutation({});
+  const mutation = useMutation({
+    mutationFn: updateFolderDetailsHandler.updateFolderDetailsHandler,
+    onSuccess: async (data) => {
+      toast.success(data.message);
+      await queryClient.invalidateQueries({
+        queryKey: ["get-all-folder"],
+      });
+    },
+    onError: (data) => {
+      toast.error(data.message);
+    },
+  });
+
+  const handleUpdateFolder = (values: z.infer<typeof FolderSchema>) => {
+    mutation.mutate({
+      formData: values,
+      folderId: folderId,
+    });
+  };
 
   return (
     <Form {...form}>
-      <form>
+      <form onSubmit={form.handleSubmit(handleUpdateFolder)}>
         <div className="space-y-4">
           <FormField
             control={form.control}
