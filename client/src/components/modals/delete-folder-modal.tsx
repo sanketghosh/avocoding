@@ -1,5 +1,5 @@
 // PACKAGES
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2Icon, Trash2Icon } from "lucide-react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,6 +17,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 export default function DeleteFolderModal() {
   const { deleteFolder } = useFolderStore();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { id } = useParams<{ id: string }>();
   // console.log(id);
@@ -28,6 +29,7 @@ export default function DeleteFolderModal() {
       toast.success(data.message);
       deleteFolder(decodedFolderId);
       navigate("/dashboard");
+      await queryClient.invalidateQueries({ queryKey: ["get-all-folder"] });
     },
     onError: (error) => {
       toast.error(error.message);

@@ -14,3 +14,5 @@ export type CreatedFolderType = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type SortOrderType = "latest" | "oldest";

@@ -45,14 +45,14 @@ export const FolderSchema = z.object({
     .min(2, {
       message: "Minimum 2 characters is required.",
     })
-    .max(20, {
-      message: "Maximum 15 characters are required.",
+    .max(50, {
+      message: "Maximum 90 characters are required.",
     }),
   description: z
     .string()
     .min(2, { message: "Minimum 2 characters are needed." })
     .max(140, {
-      message: "Maximum 25 characters are needed.",
+      message: "Maximum 140 characters are allowed.",
     }),
   emoji: z.string(),
 });

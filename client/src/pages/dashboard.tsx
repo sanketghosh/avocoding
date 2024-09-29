@@ -5,22 +5,24 @@ import { LoaderIcon } from "react-hot-toast";
 // LOCAL MODULES
 import * as getFoldersHandler from "@/actions/folder-actions/get-folders-action";
 import { useAuthContext } from "@/providers/auth-provider";
-import { CreatedFolderType } from "@/types";
+import { CreatedFolderType, SortOrderType } from "@/types";
 
 // COMPONENTS
+import SortButton from "@/components/buttons/sort-button";
 import FolderCard from "@/components/cards/folder-card";
 import AddFolderModal from "@/components/modals/add-folder-modal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFolderStore } from "@/store/folder-store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const { user } = useAuthContext();
   const { folders, setFolders } = useFolderStore();
+  const [sortOrder, setSortOrder] = useState<SortOrderType>("latest");
 
   const { isLoading, error, isSuccess, data } = useQuery({
-    queryKey: ["get-all-folder"],
-    queryFn: getFoldersHandler.getFoldersHandler,
+    queryKey: ["get-all-folder", sortOrder],
+    queryFn: () => getFoldersHandler.getFoldersHandler(sortOrder),
     staleTime: 5000,
     // refetchOnWindowFocus: true,
   });
@@ -31,12 +33,16 @@ export default function Dashboard() {
     }
   }, [isSuccess, data, setFolders]);
 
-  // console.log(data);
+  const handleSortChange = (order: SortOrderType) => {
+    setSortOrder(order);
+  };
 
   return (
-    <div>
+    <div className="space-y-4">
       <Header username={user?.userUsername} />
-      <div className="w-full py-4">
+      <SortButton handleSortChange={handleSortChange} sortOrder={sortOrder} />
+
+      <div className="w-full">
         {error ? (
           <p>{error.message}</p>
         ) : (

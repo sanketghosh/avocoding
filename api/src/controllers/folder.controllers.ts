@@ -10,6 +10,9 @@ export const getAllFoldersHandler = async (req: Request, res: Response) => {
   try {
     const userId = req.userId;
 
+    // sort query
+    const { sort } = req.query;
+
     if (!userId) {
       return res.status(401).json({
         error: "ERROR! User is unauthorized.",
@@ -19,6 +22,9 @@ export const getAllFoldersHandler = async (req: Request, res: Response) => {
     const folders = await db.folder.findMany({
       where: {
         userId: userId,
+      },
+      orderBy: {
+        createdAt: sort === "latest" ? "desc" : "asc", // default "desc",
       },
       include: {
         questions: true,

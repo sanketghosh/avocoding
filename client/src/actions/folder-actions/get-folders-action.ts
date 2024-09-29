@@ -1,15 +1,19 @@
 import { API_BASE_URL } from "@/constants";
 import { ApiError } from "@/lib/handle-api-error";
+import { SortOrderType } from "@/types";
 
-export const getFoldersHandler = async () => {
+export const getFoldersHandler = async (sortOrder: SortOrderType) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/v1/folder/folders`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${API_BASE_URL}/api/v1/folder/folders?sort=${sortOrder}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -17,7 +21,7 @@ export const getFoldersHandler = async () => {
     }
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     if (error instanceof ApiError) {

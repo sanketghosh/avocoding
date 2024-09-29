@@ -19,6 +19,8 @@ const prisma_1 = require("../lib/prisma");
 const getAllFoldersHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.userId;
+        // sort query
+        const { sort } = req.query;
         if (!userId) {
             return res.status(401).json({
                 error: "ERROR! User is unauthorized.",
@@ -27,6 +29,9 @@ const getAllFoldersHandler = (req, res) => __awaiter(void 0, void 0, void 0, fun
         const folders = yield prisma_1.db.folder.findMany({
             where: {
                 userId: userId,
+            },
+            orderBy: {
+                createdAt: sort === "latest" ? "desc" : "asc", // default "desc",
             },
             include: {
                 questions: true,
