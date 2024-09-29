@@ -27,7 +27,11 @@ folderRouter.put(
 );
 
 //
-folderRouter.delete("/delete-folder", verifyTokenHandler, deleteFolderHandler);
+folderRouter.delete(
+  "/delete-folder/:folderId",
+  verifyTokenHandler,
+  deleteFolderHandler,
+);
 
 router.use("/folder", folderRouter);
 

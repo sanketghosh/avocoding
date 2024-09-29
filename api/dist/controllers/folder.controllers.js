@@ -172,5 +172,56 @@ exports.updateFolderDetailsHandler = updateFolderDetailsHandler;
  * @param req
  * @param res
  */
-const deleteFolderHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const deleteFolderHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.userId;
+        const { folderId } = req.params;
+        // const { title, description, emoji } = req.body;
+        // check if the user is authenticated
+        if (!userId) {
+            return res.status(401).json({
+                message: "ERROR! User is not authenticated.",
+            });
+        }
+        // check if folderId is present
+        if (!folderId) {
+            return res.status(400).json({
+                message: "ERROR! Folder ID is required.",
+            });
+        }
+        // find the folder and verify that it belongs to the user
+        const folder = yield prisma_1.db.folder.findUnique({
+            where: {
+                id: folderId,
+            },
+        });
+        // if folder not found
+        if (!folderId) {
+            return res.status(404).json({
+                message: "ERROR! Folder not found.",
+            });
+        }
+        // if folders userid doesn't match with userID then user dont have permission to delete
+        if ((folder === null || folder === void 0 ? void 0 : folder.userId) !== userId) {
+            return res.status(403).json({
+                message: "ERROR! You do not have permission to delete this folder.",
+            });
+        }
+        // delete the folder with cascade deletion for related questions and code
+        yield prisma_1.db.folder.delete({
+            where: {
+                id: folderId,
+            },
+        });
+        return res.status(200).json({
+            message: "SUCCESS! Folder and its related content have been deleted.",
+        });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "ERROR! Something went wrong. Internal server error",
+        });
+    }
+});
 exports.deleteFolderHandler = deleteFolderHandler;
