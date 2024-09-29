@@ -3,15 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// packages
+// PACKAGES
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-const swagger_json_1 = __importDefault(require("./swagger.json"));
-// imported routes
+// LOCAL NODULES
 const routes_1 = require("./routes");
+const swagger_json_1 = __importDefault(require("./swagger.json"));
 // port
 const PORT = process.env.PORT || 8000;
 // initializing app
@@ -27,6 +27,7 @@ app.use((0, cors_1.default)({
 // routes
 app.use("/api/v1", routes_1.authRoutes);
 app.use("/api/v1", routes_1.folderRoutes);
+app.use("/api/v1", routes_1.questionRoutes);
 // swagger
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
 // app listener

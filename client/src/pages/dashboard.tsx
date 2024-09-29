@@ -1,19 +1,17 @@
 // PACKAGES
 import { useQuery } from "@tanstack/react-query";
-import { LoaderIcon } from "react-hot-toast";
+import { useEffect, useState } from "react";
 
 // LOCAL MODULES
 import * as getFoldersHandler from "@/actions/folder-actions/get-folders-action";
 import { useAuthContext } from "@/providers/auth-provider";
+import { useFolderStore } from "@/store/folder-store";
 import { CreatedFolderType, SortOrderType } from "@/types";
 
 // COMPONENTS
 import SortButton from "@/components/buttons/sort-button";
 import FolderCard from "@/components/cards/folder-card";
 import AddFolderModal from "@/components/modals/add-folder-modal";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useFolderStore } from "@/store/folder-store";
-import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const { user } = useAuthContext();
@@ -48,22 +46,13 @@ export default function Dashboard() {
         ) : (
           <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <AddFolderModal />
-            {isLoading ? (
-              [1, 2, 3, 4, 5].map((item: number) => (
-                <Skeleton
-                  key={item}
-                  className="flex h-44 items-center justify-center"
-                >
-                  <LoaderIcon className="size-5 animate-spin" />
-                </Skeleton>
-              ))
-            ) : (
-              <>
-                {folders?.map((folder: CreatedFolderType) => (
-                  <FolderCard folderData={folder} key={folder.id} />
-                ))}
-              </>
-            )}
+            {folders?.map((folder: CreatedFolderType) => (
+              <FolderCard
+                folderData={folder}
+                key={folder.id}
+                isLoading={isLoading}
+              />
+            ))}
           </div>
         )}
       </div>

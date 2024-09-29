@@ -1,13 +1,17 @@
+// PACKAGES
 import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { type Request, type Response } from "express";
+
+// LOCAL MODULES
 import { TOKEN_EXP_AGE } from "../constants";
 import { db } from "../lib/prisma";
 import { generateJWT } from "../utils/jwt-generator";
 
 /**
-REGISTER USER
-*/
+ *
+ * @returns
+ */
 export const registerUserHandler = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;

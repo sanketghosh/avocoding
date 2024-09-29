@@ -1,30 +1,51 @@
 // packages
+import { useQuery } from "@tanstack/react-query";
 import { ChevronLeftIcon } from "lucide-react";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 // local modules
+import * as getAllQuestionsAction from "@/actions/question-actions/get-questions-action";
+import { decodeId } from "@/lib/url-encode-decode";
 import { cn } from "@/lib/utils";
-import { CreatedFolderType } from "@/types";
+import { useFolderStore } from "@/store/folder-store";
+import { CreatedFolderType, CreatedQuestionType, SortOrderType } from "@/types";
 
 // components
+import SortButton from "@/components/buttons/sort-button";
 import QuestionCard from "@/components/cards/question-card";
 import AddQuestionModal from "@/components/modals/add-question-modal";
 import DeleteFolderModal from "@/components/modals/delete-folder-modal";
 import UpdateFolderModal from "@/components/modals/update-folder-modal";
 import { buttonVariants } from "@/components/ui/button";
-import { decodeId } from "@/lib/url-encode-decode";
-import { useFolderStore } from "@/store/folder-store";
 
 export default function QuestionsList() {
+  const [sortOrder, setSortOrder] = useState<SortOrderType>("latest");
+
   const { id } = useParams<{ id: string }>();
-  // console.log(id);
   const decodedFolderId = decodeId(id!);
   const { folders } = useFolderStore();
   // console.log(decodedFolderId);
 
   const folderData = folders?.find((folder) => folder.id === decodedFolderId);
 
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["get-all-questions", sortOrder],
+    queryFn: () =>
+      getAllQuestionsAction.getAllQuestionsAction({
+        folderId: decodedFolderId,
+        sortOrder: sortOrder,
+      }),
+    staleTime: 5000,
+  });
+
+  console.log(data);
+
   if (!folderData) return <p>Folder not found.</p>;
+
+  const handleSortChange = (order: SortOrderType) => {
+    setSortOrder(order);
+  };
 
   return (
     <div className="space-y-4">
@@ -42,19 +63,23 @@ export default function QuestionsList() {
         <p>Dashboard</p>
       </Link>
       <Header folderData={folderData} folderId={decodedFolderId} />
+      <SortButton handleSortChange={handleSortChange} sortOrder={sortOrder} />
       <div className="w-full">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          <AddQuestionModal />
-          {[1, 2, 3, 4, 5, 6, 7, 11, 12, 14].map((item, idx) => (
-            <QuestionCard
-              slNo={idx + 1}
-              key={idx + item}
-              title="
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis explicabo suscipit, sunt nihil nulla beatae exercitationem, itaque maxime, nam placeat officia? Veritatis ipsam sunt tempora optio esse, ratione fugiat accusamus!
-          "
-            />
-          ))}
-        </div>
+        {error ? (
+          <p>{error.message}</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <AddQuestionModal />
+            {data?.data?.map((question: CreatedQuestionType, idx: number) => (
+              <QuestionCard
+                slNo={idx + 1}
+                key={question.id}
+                title={question.title}
+                isLoading={isLoading}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

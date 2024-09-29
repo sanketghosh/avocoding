@@ -58,7 +58,7 @@ export const FolderSchema = z.object({
 });
 
 // ADD QUESTION
-export const AddQuestionSchema = z.object({
+export const QuestionSchema = z.object({
   title: z.string().min(2, {
     message: "Minimum two characters are needed in question title.",
   }),

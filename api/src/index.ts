@@ -1,13 +1,13 @@
-// packages
+// PACKAGES
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
-import swaggerDoc from "./swagger.json";
 
-// imported routes
-import { authRoutes, folderRoutes } from "./routes";
+// LOCAL NODULES
+import { authRoutes, folderRoutes, questionRoutes } from "./routes";
+import swaggerDoc from "./swagger.json";
 
 // port
 const PORT = process.env.PORT || 8000;
@@ -29,6 +29,7 @@ app.use(
 // routes
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", folderRoutes);
+app.use("/api/v1", questionRoutes);
 
 // swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));

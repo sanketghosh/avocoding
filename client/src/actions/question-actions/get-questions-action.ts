@@ -2,10 +2,18 @@ import { API_BASE_URL } from "@/constants";
 import { ApiError } from "@/lib/handle-api-error";
 import { SortOrderType } from "@/types";
 
-export const getFoldersHandler = async (sortOrder: SortOrderType) => {
+type DataType = {
+  sortOrder: SortOrderType;
+  folderId: string;
+};
+
+export const getAllQuestionsAction = async ({
+  folderId,
+  sortOrder,
+}: DataType) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/api/v1/folder/folders?sort=${sortOrder}`,
+      `${API_BASE_URL}/api/v1/question/questions/${folderId}?sort=${sortOrder}`,
       {
         method: "GET",
         credentials: "include",

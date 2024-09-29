@@ -1,5 +1,8 @@
+// PACKAGES
 import "dotenv/config";
 import jwt from "jsonwebtoken";
+
+// LOCAL MODULES
 import { TOKEN_EXP_AGE } from "../constants";
 
 export const generateJWT = (userId: string) => {

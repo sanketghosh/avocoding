@@ -1,4 +1,7 @@
+// PACKAGES
 import express from "express";
+
+// LOCAL MODULES
 import {
   loginUserHandler,
   logoutUserHandler,

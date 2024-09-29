@@ -1,7 +1,10 @@
+// PACKAGES
 import { FilePlusIcon } from "lucide-react";
-import AddQuestionForm from "../forms/add-question-form";
-import { Dialog, DialogTrigger } from "../ui/dialog";
-import ModalContentWrapper from "./modal-content-wrapper";
+
+// COMPONENTS
+import AddQuestionForm from "@/components/forms/question-form/add-question-form";
+import ModalContentWrapper from "@/components/modals/modal-content-wrapper";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 export default function AddQuestionModal() {
   return (

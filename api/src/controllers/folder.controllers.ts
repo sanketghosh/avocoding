@@ -1,4 +1,7 @@
+// PACKAGES
 import { type Request, type Response } from "express";
+
+// LOCAL MODULES
 import { db } from "../lib/prisma";
 
 /**
@@ -86,12 +89,7 @@ export const createFolderHandler = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       message: "SUCCESS! Folder has been created.",
-      folderTitle: newFolder.title,
-      folderDescription: newFolder.description,
-      folderEmoji: newFolder.emoji,
-      folderCreatedAt: newFolder.createdAt,
-      folderUpdatedAt: newFolder.updatedAt,
-      folderId: newFolder.id,
+      data: newFolder,
     });
   } catch (error) {
     console.error(error);

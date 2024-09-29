@@ -1,37 +1,64 @@
 // PACKAGES
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 import * as z from "zod";
 
 // LOCAL MODULES
-import { AddQuestionSchema } from "@/schemas";
+import * as createQuestionAction from "@/actions/question-actions/create-question-action";
+import { decodeId } from "@/lib/url-encode-decode";
+import { QuestionSchema } from "@/schemas";
 
 // COMPONENTS
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useMutation } from "@tanstack/react-query";
-import { Loader2Icon } from "lucide-react";
 
 export default function AddQuestionForm() {
-  const form = useForm<z.infer<typeof AddQuestionSchema>>({
-    resolver: zodResolver(AddQuestionSchema),
+  const { id } = useParams<{ id: string }>();
+  // console.log(id);
+  const decodedFolderId = decodeId(id!);
+  // console.log(decodedFolderId);
+
+
+const queryClient= useQueryClient()
+
+  const form = useForm<z.infer<typeof QuestionSchema>>({
+    resolver: zodResolver(QuestionSchema),
     defaultValues: {
       title: "",
     },
   });
 
-  const mutation = useMutation({});
+  const mutation = useMutation({
+    mutationFn: createQuestionAction.createQuestionAction,
+    onSuccess: async (data) => {
+      toast.success(data.message);
+      await queryClient.invalidateQueries({
+        queryKey:["get-all-questions"]
+      })
+    },
+    onError: (data) => {
+      toast.error(data.message);
+    },
+  });
 
-  const handleCreateQuestion = (values: z.infer<typeof AddQuestionSchema>) => {
-    console.log(values);
+  const handleCreateQuestion = (values: z.infer<typeof QuestionSchema>) => {
+    // console.log(values);
+    mutation.mutate({
+      formData: values,
+      folderId: decodedFolderId,
+    });
   };
 
   return (

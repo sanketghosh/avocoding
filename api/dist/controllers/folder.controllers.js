@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteFolderHandler = exports.updateFolderDetailsHandler = exports.createFolderHandler = exports.getAllFoldersHandler = void 0;
+// LOCAL MODULES
 const prisma_1 = require("../lib/prisma");
 /**
  *
@@ -88,12 +89,7 @@ const createFolderHandler = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
         return res.status(200).json({
             message: "SUCCESS! Folder has been created.",
-            folderTitle: newFolder.title,
-            folderDescription: newFolder.description,
-            folderEmoji: newFolder.emoji,
-            folderCreatedAt: newFolder.createdAt,
-            folderUpdatedAt: newFolder.updatedAt,
-            folderId: newFolder.id,
+            data: newFolder,
         });
     }
     catch (error) {

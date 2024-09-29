@@ -13,6 +13,16 @@ export type CreatedFolderType = {
   emoji: string;
   createdAt: Date;
   updatedAt: Date;
+  questions: CreatedQuestionType[];
+};
+
+export type CreatedQuestionType = {
+  id: string;
+  folderId: string;
+  title: string;
+  problemStatement: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type SortOrderType = "latest" | "oldest";

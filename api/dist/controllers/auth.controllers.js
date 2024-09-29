@@ -25,12 +25,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logoutUserHandler = exports.loginUserHandler = exports.registerUserHandler = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
+// LOCAL MODULES
 const constants_1 = require("../constants");
 const prisma_1 = require("../lib/prisma");
 const jwt_generator_1 = require("../utils/jwt-generator");
 /**
-REGISTER USER
-*/
+ *
+ * @returns
+ */
 const registerUserHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, email, password } = req.body;
