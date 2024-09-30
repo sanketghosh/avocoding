@@ -78,7 +78,10 @@ export const getAllQuestionsByFolderHandler = async (
  *
  */
 
-export const createQuestionHandler = async (req: Request, res: Response) => {
+export const createQuestionTitleHandler = async (
+  req: Request,
+  res: Response,
+) => {
   const userId = req.userId;
   const { title, folderId } = req.body;
 
@@ -144,6 +147,61 @@ export const createQuestionHandler = async (req: Request, res: Response) => {
     console.error(error);
     return res.status(500).json({
       message: "ERROR! Something went wrong. Internal server error",
+    });
+  }
+};
+
+/*
+ *
+ *
+ */
+export const createQuestionProblemStatementHandler = async (
+  req: Request,
+  res: Response,
+) => {
+  const userId = req.userId;
+  const { questionId, problemStatement } = req.body;
+  try {
+    // validate if questionId and problemStatement are provided
+    if (!questionId || !problemStatement) {
+      return res.status(400).json({
+        message: "ERROR! Question ID and problem statement are required.",
+      });
+    }
+
+    // find the question and ensure the user owns the folder
+    const question = await db.question.findFirst({
+      where: {
+        id: questionId,
+        folder: {
+          userId: userId,
+        },
+      },
+    });
+
+    // If the question is not found or the user doesn't own the folder
+    if (!question) {
+      return res.status(404).json({
+        message: "ERROR! Question not found or unauthorized.",
+      });
+    }
+    // Update the problem statement for the question
+    const createdProblemStatement = await db.question.update({
+      where: { id: questionId },
+      data: {
+        problemStatement: problemStatement,
+      },
+    });
+
+    // Send a success response
+    return res.status(200).json({
+      message: "Problem statement created successfully.",
+      data: createdProblemStatement,
+    });
+  } catch (error) {
+    console.error("Error creating problem statement:", error);
+    return res.status(500).json({
+      message: "ERROR! Internal server error.",
     });
   }
 };

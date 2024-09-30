@@ -1,6 +1,7 @@
 // LOCAL MODULES
 import {
-  createQuestionHandler,
+  createQuestionProblemStatementHandler,
+  createQuestionTitleHandler,
   deleteQuestionHandler,
   getAllQuestionsByFolderHandler,
   updateQuestionHandler,
@@ -23,7 +24,19 @@ authRouter.get(
 
 /**
  */
-authRouter.post("/create-question", verifyTokenHandler, createQuestionHandler);
+authRouter.post(
+  "/create-question-title",
+  verifyTokenHandler,
+  createQuestionTitleHandler,
+);
+
+/**
+ */
+authRouter.post(
+  "/create-problem-statement",
+  verifyTokenHandler,
+  createQuestionProblemStatementHandler,
+);
 
 /**
  */

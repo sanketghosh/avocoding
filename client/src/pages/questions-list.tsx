@@ -74,6 +74,7 @@ export default function QuestionsList() {
               <QuestionCard
                 slNo={idx + 1}
                 key={question.id}
+                questionId={question.id}
                 title={question.title}
                 isLoading={isLoading}
               />

@@ -8,19 +8,19 @@ import { useParams } from "react-router-dom";
 import * as z from "zod";
 
 // LOCAL MODULES
-import * as createQuestionAction from "@/actions/question-actions/create-question-action";
+import * as createQuestionTitleAction from "@/actions/question-actions/create-question-title-action";
 import { decodeId } from "@/lib/url-encode-decode";
 import { QuestionSchema } from "@/schemas";
 
 // COMPONENTS
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
@@ -30,8 +30,7 @@ export default function AddQuestionForm() {
   const decodedFolderId = decodeId(id!);
   // console.log(decodedFolderId);
 
-
-const queryClient= useQueryClient()
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
@@ -41,12 +40,12 @@ const queryClient= useQueryClient()
   });
 
   const mutation = useMutation({
-    mutationFn: createQuestionAction.createQuestionAction,
+    mutationFn: createQuestionTitleAction.createQuestionTitleAction,
     onSuccess: async (data) => {
       toast.success(data.message);
       await queryClient.invalidateQueries({
-        queryKey:["get-all-questions"]
-      })
+        queryKey: ["get-all-questions"],
+      });
     },
     onError: (data) => {
       toast.error(data.message);

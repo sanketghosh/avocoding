@@ -8,13 +8,13 @@ type DataType = {
   formData: z.infer<typeof QuestionSchema>;
 };
 
-export const createQuestionAction = async ({
+export const createQuestionTitleAction = async ({
   folderId,
   formData,
 }: DataType) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/api/v1/question/create-question`,
+      `${API_BASE_URL}/api/v1/question/create-question-title`,
       {
         method: "POST",
         credentials: "include",

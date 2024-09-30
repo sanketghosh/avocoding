@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteQuestionHandler = exports.updateQuestionHandler = exports.createQuestionHandler = exports.getAllQuestionsByFolderHandler = void 0;
+exports.deleteQuestionHandler = exports.updateQuestionHandler = exports.createQuestionProblemStatementHandler = exports.createQuestionTitleHandler = exports.getAllQuestionsByFolderHandler = void 0;
 // LOCAL MODULES
 const prisma_1 = require("../lib/prisma");
 /**
@@ -75,7 +75,7 @@ exports.getAllQuestionsByFolderHandler = getAllQuestionsByFolderHandler;
  *
  *
  */
-const createQuestionHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createQuestionTitleHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.userId;
     const { title, folderId } = req.body;
     try {
@@ -137,7 +137,57 @@ const createQuestionHandler = (req, res) => __awaiter(void 0, void 0, void 0, fu
         });
     }
 });
-exports.createQuestionHandler = createQuestionHandler;
+exports.createQuestionTitleHandler = createQuestionTitleHandler;
+/*
+ *
+ *
+ */
+const createQuestionProblemStatementHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.userId;
+    const { questionId, problemStatement } = req.body;
+    try {
+        // validate if questionId and problemStatement are provided
+        if (!questionId || !problemStatement) {
+            return res.status(400).json({
+                message: "ERROR! Question ID and problem statement are required.",
+            });
+        }
+        // find the question and ensure the user owns the folder
+        const question = yield prisma_1.db.question.findFirst({
+            where: {
+                id: questionId,
+                folder: {
+                    userId: userId,
+                },
+            },
+        });
+        // If the question is not found or the user doesn't own the folder
+        if (!question) {
+            return res.status(404).json({
+                message: "ERROR! Question not found or unauthorized.",
+            });
+        }
+        // Update the problem statement for the question
+        const createdProblemStatement = yield prisma_1.db.question.update({
+            where: { id: questionId },
+            data: {
+                problemStatement: problemStatement,
+            },
+        });
+        // Send a success response
+        return res.status(200).json({
+            message: "Problem statement created successfully.",
+            data: createdProblemStatement,
+        });
+    }
+    catch (error) {
+        console.error("Error creating problem statement:", error);
+        return res.status(500).json({
+            message: "ERROR! Internal server error.",
+        });
+    }
+});
+exports.createQuestionProblemStatementHandler = createQuestionProblemStatementHandler;
 /*
  *
  *
