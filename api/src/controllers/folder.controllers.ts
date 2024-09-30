@@ -145,7 +145,7 @@ export const updateFolderDetailsHandler = async (
       });
     }
 
-    // check if the folder belongs to the curreny user
+    // check if the folder belongs to the current user
     if (folder.userId !== userId) {
       return res.status(403).json({
         message: "ERROR! You are not authorized to update this folder.",

@@ -57,9 +57,7 @@ export default function App() {
           path="/question/:id"
           element={
             <ProtectedRoute>
-              <MainLayout>
-                <CodeEditor />
-              </MainLayout>
+              <CodeEditor />
             </ProtectedRoute>
           }
         />

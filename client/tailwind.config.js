@@ -6,7 +6,7 @@ export default {
     extend: {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
-        playfair_display: ["Playfair Display", "serif"],
+        jetbrains_mono: ["JetBrains Mono", "monospace"],
       },
       borderRadius: {
         lg: "var(--radius)",

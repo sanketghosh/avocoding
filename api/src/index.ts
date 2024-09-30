@@ -9,16 +9,20 @@ import swaggerUi from "swagger-ui-express";
 import { authRoutes, folderRoutes, questionRoutes } from "./routes";
 import swaggerDoc from "./swagger.json";
 
-// port
+// PORT
 const PORT = process.env.PORT || 8000;
 
-// initializing app
+// INITIALIZING APP
 const app = express();
 
-// middlewares
+// MIDDLEWARES
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -26,15 +30,15 @@ app.use(
   }),
 );
 
-// routes
+// ROUTES
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", folderRoutes);
 app.use("/api/v1", questionRoutes);
 
-// swagger
+// SWAGGER
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
-// app listener
+// APP LISTENER
 app.listen(PORT, () => {
-  console.log(`SUCCESS: app listening on http://localhost:${PORT}`);
+  console.log(`SUCCESS: API server running on http://localhost:${PORT}`);
 });
