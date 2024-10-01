@@ -72,6 +72,13 @@ export const getAllQuestionsByFolderHandler = async (
   }
 };
 
+/**
+ *
+ *
+ *
+ */
+export const getSingleQuestionByIdHandler = (req: Request, res: Response) => {};
+
 /*
  *
  *
@@ -211,7 +218,68 @@ export const createQuestionProblemStatementHandler = async (
  *
  */
 
-export const updateQuestionHandler = (req: Request, res: Response) => {};
+export const updateQuestionHandler = async (req: Request, res: Response) => {
+  const userId = req.userId;
+  const { questionId, title, problemStatement } = req.body;
+
+  try {
+    // validate if questionId is provided
+    if (!questionId) {
+      return res.status(400).json({
+        message: "ERROR! Question ID is required.",
+      });
+    }
+
+    //  ensure either title or problemStatement is provided
+    if (!title && !problemStatement) {
+      return res.status(400).json({
+        message:
+          "ERROR! Either title or problem statement must be provided for updating.",
+      });
+    }
+
+    // find the question and ensure the user owns the folder
+    const question = await db.question.findFirst({
+      where: {
+        id: questionId,
+        folder: {
+          userId: userId, // ensure that the folder belongs to the logged in user
+        },
+      },
+    });
+
+    // if the question is not found or the user doesn't own the folder
+    if (!question) {
+      return res.status(404).json({
+        message: "ERROR! Question not found or unauthorized.",
+      });
+    }
+
+    // prepare the data object for update (only include fields that are provided)
+
+    // update the question with the provided title an/or problem statement
+    const updatedQuestion = await db.question.update({
+      where: {
+        id: questionId,
+      },
+      data: {
+        title: title,
+        problemStatement: problemStatement,
+      },
+    });
+
+    // send a success response
+    return res.status(200).json({
+      message: "SUCCESS! Question updated successfully.",
+      data: updatedQuestion,
+    });
+  } catch (error) {
+    console.error("Error creating problem statement:", error);
+    return res.status(500).json({
+      message: "ERROR! Internal server error.",
+    });
+  }
+};
 
 /*
  *

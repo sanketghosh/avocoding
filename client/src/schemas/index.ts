@@ -63,3 +63,11 @@ export const QuestionSchema = z.object({
     message: "Minimum two characters are needed in question title.",
   }),
 });
+
+// FULL QUESTION QUESTION SCHEMA
+export const FullQuestionSchema = z.object({
+  title: z.string().min(2, {
+    message: "Minimum two characters are needed in question title.",
+  }),
+  problemStatement: z.string(),
+});

@@ -1,4 +1,5 @@
-import { ChevronLeftIcon, PencilIcon } from "lucide-react";
+import { ChevronLeftIcon } from "lucide-react";
+import EditQuestionSheet from "../sheets/edit-question-sheet";
 import { Button } from "../ui/button";
 
 export default function ProblemDetails() {
@@ -13,14 +14,7 @@ export default function ProblemDetails() {
           <ChevronLeftIcon size={18} />
           <p>Back</p>
         </Button>
-        <Button
-          className="flex items-center gap-1"
-          variant={"secondary"}
-          size={"sm"}
-        >
-          <PencilIcon size={17} />
-          <p>Edit</p>
-        </Button>
+        <EditQuestionSheet />
       </div>
       <h1>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic veritatis
