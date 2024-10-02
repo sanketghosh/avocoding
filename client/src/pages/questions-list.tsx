@@ -30,7 +30,7 @@ export default function QuestionsList() {
   const folderData = folders?.find((folder) => folder.id === decodedFolderId);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["get-all-questions", sortOrder],
+    queryKey: ["questions", "get-all-questions", sortOrder],
     queryFn: () =>
       getAllQuestionsAction.getAllQuestionsAction({
         folderId: decodedFolderId,

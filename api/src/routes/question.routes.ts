@@ -38,7 +38,7 @@ authRouter.post(
 
 /** */
 authRouter.post(
-  "/create-problem-statement",
+  "/create-problem-statement/",
   verifyTokenHandler,
   createQuestionProblemStatementHandler,
 );

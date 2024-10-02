@@ -75,7 +75,50 @@ exports.getAllQuestionsByFolderHandler = getAllQuestionsByFolderHandler;
  *
  *
  */
-const getSingleQuestionByIdHandler = (req, res) => { };
+const getSingleQuestionByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { questionId } = req.params;
+    const userId = req.userId;
+    try {
+        // check if you are authenticated
+        if (!userId) {
+            return res.status(401).json({
+                message: "ERROR! User is no",
+            });
+        }
+        // fetch question
+        const singleQuestionData = yield prisma_1.db.question.findUnique({
+            where: {
+                id: questionId,
+            },
+            include: {
+                folder: true,
+                code: true,
+            },
+        });
+        // if question is not found
+        if (!singleQuestionData) {
+            return res.status(404).json({
+                message: "ERROR! Question not found.",
+            });
+        }
+        // check if the folder belongs to the logged-in-user
+        if (singleQuestionData.folder.userId !== userId) {
+            return res.status(403).json({
+                message: "ERROR! You do not have access to this folder.",
+            });
+        }
+        // send single question data
+        return res.status(200).json({
+            message: "SUCCESS! Single question data has been fetched.",
+            data: singleQuestionData,
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: "ERROR! Something went wrong. Internal server error",
+        });
+    }
+});
 exports.getSingleQuestionByIdHandler = getSingleQuestionByIdHandler;
 /*
  *

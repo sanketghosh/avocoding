@@ -17,7 +17,7 @@ authRouter.get("/question/:questionId", verify_token_middleware_1.verifyTokenHan
 /** */
 authRouter.post("/create-question-title", verify_token_middleware_1.verifyTokenHandler, question_controllers_1.createQuestionTitleHandler);
 /** */
-authRouter.post("/create-problem-statement", verify_token_middleware_1.verifyTokenHandler, question_controllers_1.createQuestionProblemStatementHandler);
+authRouter.post("/create-problem-statement/", verify_token_middleware_1.verifyTokenHandler, question_controllers_1.createQuestionProblemStatementHandler);
 /** */
 authRouter.put("/update-question", verify_token_middleware_1.verifyTokenHandler, question_controllers_1.updateQuestionHandler);
 /** */

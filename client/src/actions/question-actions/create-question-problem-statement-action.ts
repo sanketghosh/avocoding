@@ -1,33 +1,29 @@
 import { API_BASE_URL } from "@/constants";
 import { ApiError } from "@/lib/handle-api-error";
-import { QuestionTitleSchema } from "@/schemas";
+import { QuestionProblemStatementSchema } from "@/schemas";
 import * as z from "zod";
 
 type DataType = {
-  folderId: string;
-  formData: z.infer<typeof QuestionTitleSchema>;
+  questionId: string;
+  formData: z.infer<typeof QuestionProblemStatementSchema>;
 };
 
-export const createQuestionTitleAction = async ({
-  folderId,
+export const createQuestionProblemStatementAction = async ({
   formData,
+  questionId,
 }: DataType) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/api/v1/question/create-question-title`,
+      `${API_BASE_URL}/api/v1/questions/create-problem-statement`,
       {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          folderId,
-          ...formData,
-        }),
+        body: JSON.stringify({ questionId, ...formData }),
       },
     );
-
     const data = await response.json();
     return data;
   } catch (error) {

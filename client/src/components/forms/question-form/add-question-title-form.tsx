@@ -1,4 +1,5 @@
 // PACKAGES
+import { QuestionTitleSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
@@ -10,7 +11,6 @@ import * as z from "zod";
 // LOCAL MODULES
 import * as createQuestionTitleAction from "@/actions/question-actions/create-question-title-action";
 import { decodeId } from "@/lib/url-encode-decode";
-import { QuestionSchema } from "@/schemas";
 
 // COMPONENTS
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-export default function AddQuestionForm() {
+export default function AddQuestionTitleForm() {
   const { id } = useParams<{ id: string }>();
   // console.log(id);
   const decodedFolderId = decodeId(id!);
@@ -32,8 +32,8 @@ export default function AddQuestionForm() {
 
   const queryClient = useQueryClient();
 
-  const form = useForm<z.infer<typeof QuestionSchema>>({
-    resolver: zodResolver(QuestionSchema),
+  const form = useForm<z.infer<typeof QuestionTitleSchema>>({
+    resolver: zodResolver(QuestionTitleSchema),
     defaultValues: {
       title: "",
     },
@@ -52,7 +52,9 @@ export default function AddQuestionForm() {
     },
   });
 
-  const handleCreateQuestion = (values: z.infer<typeof QuestionSchema>) => {
+  const handleCreateQuestion = (
+    values: z.infer<typeof QuestionTitleSchema>,
+  ) => {
     // console.log(values);
     mutation.mutate({
       formData: values,

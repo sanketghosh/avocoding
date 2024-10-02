@@ -2,7 +2,7 @@
 import { FilePlusIcon } from "lucide-react";
 
 // COMPONENTS
-import AddQuestionForm from "@/components/forms/question-form/add-question-form";
+import AddQuestionTitleForm from "@/components/forms/question-form/add-question-title-form";
 import ModalContentWrapper from "@/components/modals/modal-content-wrapper";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
@@ -19,7 +19,7 @@ export default function AddQuestionModal() {
         modalTitle="Create a new question"
         modalDescription="Enter a question title to create a new question and then click on the created card to get redirected to the code editor."
       >
-        <AddQuestionForm />
+        <AddQuestionTitleForm />
       </ModalContentWrapper>
     </Dialog>
   );
