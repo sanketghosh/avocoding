@@ -1,9 +1,11 @@
-// COMPONENTS
-import SheetContentWrapper from "@/components/sheets/sheet-content-wrapper";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+// PACKAGES
 import { PlusIcon } from "lucide-react";
-import AddProblemStatementForm from "../forms/question-form/add-problem-statement-form";
-import { Button } from "../ui/button";
+
+// COMPONENTS
+import AddProblemStatementForm from "@/components/forms/question-form/add-problem-statement-form";
+import SheetContentWrapper from "@/components/sheets/sheet-content-wrapper";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
 export default function AddProblemStatementSheet() {
   return (

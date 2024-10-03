@@ -1,22 +1,4 @@
-import * as updateFolderDetailsHandler from "@/actions/folder-actions/update-folder-details-action";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { FolderSchema } from "@/schemas";
-import { useFolderStore } from "@/store/folder-store";
-import { CreatedFolderType } from "@/types";
+// PACKAGES
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -24,6 +6,30 @@ import { CircleOffIcon, Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as z from "zod";
+
+// LOCAL MODULES
+import * as updateFolderDetailsHandler from "@/actions/folder-actions/update-folder-details-action";
+import { FolderSchema } from "@/schemas";
+import { useFolderStore } from "@/store/folder-store";
+import { CreatedFolderType } from "@/types";
+
+// COMPONENTS
+import { Button } from "@/components/ui/button";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+
 
 type UpdateFolderFormProps = {
   folderData: CreatedFolderType;

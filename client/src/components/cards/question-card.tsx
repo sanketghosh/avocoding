@@ -1,6 +1,10 @@
 // packages
 import { Link } from "react-router-dom";
 
+// local modules
+import { encodeId } from "@/lib/url-encode-decode";
+import SkeletonProvider from "@/providers/skeleton-provider";
+
 // components
 import {
   Card,
@@ -8,8 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { encodeId } from "@/lib/url-encode-decode";
-import SkeletonProvider from "@/providers/skeleton-provider";
 
 type QuestionCardProps = {
   title: string;

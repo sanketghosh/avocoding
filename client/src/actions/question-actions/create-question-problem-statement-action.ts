@@ -4,7 +4,7 @@ import { QuestionProblemStatementSchema } from "@/schemas";
 import * as z from "zod";
 
 type DataType = {
-  questionId: string;
+  questionId?: string;
   formData: z.infer<typeof QuestionProblemStatementSchema>;
 };
 
@@ -12,9 +12,14 @@ export const createQuestionProblemStatementAction = async ({
   formData,
   questionId,
 }: DataType) => {
+  console.log({
+    ...formData,
+    questionId,
+  });
+
   try {
     const response = await fetch(
-      `${API_BASE_URL}/api/v1/questions/create-problem-statement`,
+      `${API_BASE_URL}/api/v1/question/create-problem-statement`,
       {
         method: "POST",
         credentials: "include",

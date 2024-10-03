@@ -1,10 +1,14 @@
 // PACKAGES
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import * as z from "zod";
 
 // LOCAL MODULES
+import * as editQuestionAction from "@/actions/question-actions/edit-question-action";
 import { FullQuestionSchema } from "@/schemas";
+import { useQuestionStore } from "@/store/question-store";
 
 // COMPONENTS
 import MarkdownEditor from "@/components/markdown-editor";
@@ -20,18 +24,39 @@ import {
 import { Input } from "@/components/ui/input";
 
 export default function EditQuestionForm() {
+  const { question, updateQuestion } = useQuestionStore();
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof FullQuestionSchema>>({
     resolver: zodResolver(FullQuestionSchema),
     defaultValues: {
-      title: "",
-      problemStatement: "",
+      title: question?.title,
+      problemStatement: question?.problemStatement,
+    },
+  });
+
+  const mutation = useMutation({
+    mutationFn: editQuestionAction.editQuestionAction,
+    onSuccess: async (data) => {
+      toast.success(data.message);
+      updateQuestion(form.getValues());
+      queryClient.invalidateQueries({
+        queryKey: ["questions"],
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
   const handleEditQuestionSubmit = (
     values: z.infer<typeof FullQuestionSchema>,
   ) => {
-    console.log(values);
+    // console.log(values)
+    mutation.mutate({
+      formData: values,
+      questionId: question?.id,
+    });
   };
 
   return (

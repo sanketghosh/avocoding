@@ -1,10 +1,13 @@
+// PACKAGES
+import Editor from "@monaco-editor/react";
+
+// COMPONENTS
+import ActionButtonsBar from "@/components/code-editor/action-buttons-bar";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import Editor from "@monaco-editor/react";
-import ActionButtonsBar from "./action-buttons-bar";
 
 export function EditorPanel() {
   const options = {

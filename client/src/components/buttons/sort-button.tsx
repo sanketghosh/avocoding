@@ -1,12 +1,17 @@
-import { SortOrderType } from "@/types";
+// PACKAGES
 import { ArrowDownUpIcon } from "lucide-react";
-import { Button } from "../ui/button";
+
+// LOCAL MODULES
+import { SortOrderType } from "@/types";
+
+// COMPONENTS
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 
 type SortButtonProps = {
   sortOrder: SortOrderType;

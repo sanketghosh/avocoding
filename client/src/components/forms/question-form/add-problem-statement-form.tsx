@@ -1,4 +1,16 @@
+// PACKAGES
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import * as z from "zod";
+
+// LOCAL MODULES
 import * as createQuestionProblemStatementAction from "@/actions/question-actions/create-question-problem-statement-action";
+import { QuestionProblemStatementSchema } from "@/schemas";
+import { useQuestionStore } from "@/store/question-store";
+
+// COMPONENTS
 import MarkdownEditor from "@/components/markdown-editor";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,15 +21,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { QuestionProblemStatementSchema } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import * as z from "zod";
 
 export default function AddProblemStatementForm() {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
+  const { question } = useQuestionStore();
+
+  // console.log("@@@ ADD PROB STATE: ", question?.id);
 
   const form = useForm<z.infer<typeof QuestionProblemStatementSchema>>({
     resolver: zodResolver(QuestionProblemStatementSchema),
@@ -31,6 +40,9 @@ export default function AddProblemStatementForm() {
       createQuestionProblemStatementAction.createQuestionProblemStatementAction,
     onSuccess: async (data) => {
       toast.success(data.message);
+      queryClient.invalidateQueries({
+        queryKey: ["questions"],
+      });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -42,7 +54,7 @@ export default function AddProblemStatementForm() {
   ) => {
     mutation.mutate({
       formData: values,
-      questionId: "",
+      questionId: question?.id,
     });
   };
 

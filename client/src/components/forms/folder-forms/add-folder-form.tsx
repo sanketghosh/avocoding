@@ -1,13 +1,15 @@
 // packages
-import * as createFolderHandler from "@/actions/folder-actions/create-folder-action";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleOffIcon, Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import * as z from "zod";
 
 // local modules
+import * as createFolderHandler from "@/actions/folder-actions/create-folder-action";
 import { FolderSchema } from "@/schemas";
 
 // components
@@ -26,8 +28,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
 
 export default function AddFolderForm() {
   const queryClient = useQueryClient();

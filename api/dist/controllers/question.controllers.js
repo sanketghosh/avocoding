@@ -244,7 +244,8 @@ exports.createQuestionProblemStatementHandler = createQuestionProblemStatementHa
  */
 const updateQuestionHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.userId;
-    const { questionId, title, problemStatement } = req.body;
+    const { questionId } = req.params;
+    const { title, problemStatement } = req.body;
     try {
         // validate if questionId is provided
         if (!questionId) {

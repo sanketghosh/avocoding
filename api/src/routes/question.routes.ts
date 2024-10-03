@@ -38,13 +38,17 @@ authRouter.post(
 
 /** */
 authRouter.post(
-  "/create-problem-statement/",
+  "/create-problem-statement",
   verifyTokenHandler,
   createQuestionProblemStatementHandler,
 );
 
 /** */
-authRouter.put("/update-question", verifyTokenHandler, updateQuestionHandler);
+authRouter.put(
+  "/update-question/:questionId",
+  verifyTokenHandler,
+  updateQuestionHandler,
+);
 
 /** */
 authRouter.delete(

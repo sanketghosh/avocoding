@@ -1,1 +1,3 @@
-[ ] Make global store/s for fetching and mutating folder data
+[x] Make global store/s for fetching and mutating folder data
+[ ] Completing the add problem statement functionality
+[ ] Complete edit question details functionality

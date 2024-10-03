@@ -5,7 +5,7 @@ import * as z from "zod";
 
 type DataType = {
   formData: z.infer<typeof FullQuestionSchema>;
-  questionId: string;
+  questionId?: string;
 };
 
 export const editQuestionAction = async ({
