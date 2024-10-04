@@ -31,21 +31,21 @@ export const useEditorStore = create<EditorStoreType>((set) => ({
 // Helper function to get boilerplate code for each language
 function getBoilerplate(language: string) {
   switch (language) {
-    case "c":
+    case "C":
       return '#include <stdio.h>\n\nint main() {\n\tprintf("Hello, World!\\n");\n\treturn 0;\n}';
-    case "cpp":
+    case "Cpp":
       return '#include <iostream>\n\nint main() {\n\tstd::cout << "Hello, World!\\n";\n\treturn 0;\n}';
-    case "python":
+    case "Python":
       return 'print("Hello, World!")';
-    case "javascript":
+    case "JavaScript":
       return 'console.log("Hello, World!");';
-    case "typescript":
+    case "TypeScript":
       return 'console.log("Hello, World!");';
-    case "csharp":
+    case "CSharp":
       return 'using System;\n\nclass Program {\n\tstatic void Main() {\n\t\tConsole.WriteLine("Hello, World!");\n\t}\n}';
-    case "java":
+    case "Java":
       return 'public class Main {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println("Hello, World!");\n\t}\n}';
-    case "go":
+    case "Go":
       return 'package main\n\nimport "fmt"\n\nfunc main() {\n\tfmt.Println("Hello, World!")\n}';
     default:
       return "// some comment";

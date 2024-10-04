@@ -1,7 +1,5 @@
 // PACKAGES
-import Editor from "@monaco-editor/react";
-import * as monaco from "monaco-editor"; // Importing the monaco namespace
-import { useEffect, useRef } from "react";
+import Editor, { Monaco } from "@monaco-editor/react";
 
 // LOCAL MODULES
 import { useEditorStore } from "@/store/editor-store";
@@ -25,23 +23,16 @@ export function EditorPanel() {
 
   const { editorTheme, boilerplate, programmingLanguage } = useEditorStore();
 
-  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
-  // Function to handle editor mounting and save the reference
-  const handleEditorDidMount = (
-    editor: monaco.editor.IStandaloneCodeEditor,
-    // monaco: Monaco,
-  ) => {
-    editorRef.current = editor; // Store the editor instance
-  };
+  function handleEditorWillMount(monaco: Monaco) {
+    monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+      target: monaco.languages.typescript.ScriptTarget.Latest,
+      module: monaco.languages.typescript.ModuleKind.ES2015,
+      allowNonTsExtensions: true,
+      lib: ["es2018"],
+    });
+  }
 
-  useEffect(() => {
-    if (editorRef.current && boilerplate) {
-      const currentValue = editorRef.current.getValue();
-      if (currentValue !== boilerplate) {
-        editorRef.current.setValue(boilerplate);
-      }
-    }
-  }, [boilerplate]);
+  console.log(programmingLanguage.toLowerCase());
 
   return (
     <div className="min-h-full w-3/4 border-x">
@@ -51,18 +42,21 @@ export function EditorPanel() {
           <Editor
             height={"100%"}
             width={"100%"}
-            defaultLanguage={programmingLanguage}
-            defaultValue={boilerplate}
+            value={boilerplate}
+            language={programmingLanguage.toLowerCase()}
             theme={editorTheme}
             options={options}
-            onMount={handleEditorDidMount}
+            beforeMount={handleEditorWillMount}
             className="monaco-editor"
           />
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={20}>
-          <div className="flex h-full items-center justify-center">
-            <span className="font-semibold">Content</span>
+          <div className="flex h-full items-center justify-center p-2">
+            {/* <span className="font-semibold">Content</span> */}
+            <div className="h-full w-full rounded-md border">
+              <h1>command line</h1>
+            </div>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

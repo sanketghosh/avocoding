@@ -10,16 +10,17 @@ import {
 // packages
 import { useEditorStore } from "@/store/editor-store";
 import { ProgrammingLanguageType } from "@/types";
+import { Code2Icon } from "lucide-react";
 
 const SUPPORTED_PROGRAMMING_LANGUAGES: ProgrammingLanguageType[] = [
-  "c",
-  "cpp",
-  "java",
-  "python",
-  "javascript",
-  "typescript",
-  "go",
-  "csharp",
+  "C",
+  "Cpp",
+  "Java",
+  "Python",
+  "JavaScript",
+  "TypeScript",
+  "Go",
+  "CSharp",
 ];
 
 export default function ProgrammingLanguageSelector() {
@@ -30,10 +31,11 @@ export default function ProgrammingLanguageSelector() {
       <DropdownMenuTrigger asChild>
         <Button
           size={"sm"}
-          className="flex w-32 items-center gap-1 bg-purple-800/20 capitalize text-purple-500 hover:bg-purple-800/30"
+          className="flex w-32 items-center gap-2"
           variant={"secondary"}
         >
-          {programmingLanguage}
+          <Code2Icon size={17} />
+          <p>{programmingLanguage}</p>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
