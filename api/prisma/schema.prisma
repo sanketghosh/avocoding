@@ -60,9 +60,10 @@ model Question {
 }
 
 model Code {
-  id       String @id @default(cuid())
-  langauge String
-  content  String
+  id          String  @id @default(cuid())
+  langauge    String
+  content     String
+  editorTheme String?
 
   question Question? @relation("CodeQuestion")
 

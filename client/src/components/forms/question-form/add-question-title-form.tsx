@@ -44,7 +44,7 @@ export default function AddQuestionTitleForm() {
     onSuccess: async (data) => {
       toast.success(data.message);
       await queryClient.invalidateQueries({
-        queryKey: ["get-all-questions"],
+        queryKey: ["questions"],
       });
     },
     onError: (data) => {

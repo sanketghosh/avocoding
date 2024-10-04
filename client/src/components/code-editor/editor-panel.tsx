@@ -1,5 +1,10 @@
 // PACKAGES
 import Editor from "@monaco-editor/react";
+import * as monaco from "monaco-editor"; // Importing the monaco namespace
+import { useEffect, useRef } from "react";
+
+// LOCAL MODULES
+import { useEditorStore } from "@/store/editor-store";
 
 // COMPONENTS
 import ActionButtonsBar from "@/components/code-editor/action-buttons-bar";
@@ -18,6 +23,26 @@ export function EditorPanel() {
     automaticLayout: true,
   };
 
+  const { editorTheme, boilerplate, programmingLanguage } = useEditorStore();
+
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+  // Function to handle editor mounting and save the reference
+  const handleEditorDidMount = (
+    editor: monaco.editor.IStandaloneCodeEditor,
+    // monaco: Monaco,
+  ) => {
+    editorRef.current = editor; // Store the editor instance
+  };
+
+  useEffect(() => {
+    if (editorRef.current && boilerplate) {
+      const currentValue = editorRef.current.getValue();
+      if (currentValue !== boilerplate) {
+        editorRef.current.setValue(boilerplate);
+      }
+    }
+  }, [boilerplate]);
+
   return (
     <div className="min-h-full w-3/4 border-x">
       <ResizablePanelGroup direction="vertical" className="w-full">
@@ -26,10 +51,11 @@ export function EditorPanel() {
           <Editor
             height={"100%"}
             width={"100%"}
-            defaultLanguage="javascript"
-            defaultValue="// some comment"
-            theme="vs-dark"
+            defaultLanguage={programmingLanguage}
+            defaultValue={boilerplate}
+            theme={editorTheme}
             options={options}
+            onMount={handleEditorDidMount}
             className="monaco-editor"
           />
         </ResizablePanel>

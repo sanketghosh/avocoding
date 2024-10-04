@@ -26,7 +26,7 @@ export default function ProblemDetails({
   question,
   error,
 }: ProblemDetailsProps) {
-  const encodedFolderId = encodeId(question!.folderId);
+  const encodedFolderId = encodeId(question ? question?.folderId : "");
 
   return (
     <div className="min-h-full w-1/4 space-y-4 px-2">
@@ -85,7 +85,7 @@ export default function ProblemDetails({
                     {question?.problemStatement}
                   </ReactMarkdown>
                 ) : (
-                  <div className="">
+                  <div className="mt-3">
                     <AddProblemStatementSheet />
                   </div>
                 )}

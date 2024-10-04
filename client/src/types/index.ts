@@ -26,3 +26,15 @@ export type CreatedQuestionType = {
 };
 
 export type SortOrderType = "latest" | "oldest";
+
+export type CodeEditorTheme = "vs-dark" | "light";
+
+export type ProgrammingLanguageType =
+  | "c"
+  | "cpp"
+  | "java"
+  | "python"
+  | "javascript"
+  | "typescript"
+  | "go"
+  | "csharp";
