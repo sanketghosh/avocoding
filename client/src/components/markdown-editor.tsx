@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
+  // @ts-ignore
   TextStyle.configure({ types: [ListItem.name] }),
   StarterKit.configure({
     bulletList: {

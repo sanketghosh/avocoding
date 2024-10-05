@@ -35,7 +35,7 @@ export default function ProgrammingLanguageSelector() {
           variant={"secondary"}
         >
           <Code2Icon size={17} />
-          <p>{programmingLanguage}</p>
+          <p className="text-xs font-medium uppercase">{programmingLanguage}</p>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

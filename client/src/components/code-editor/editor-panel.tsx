@@ -3,6 +3,8 @@ import Editor, { Monaco } from "@monaco-editor/react";
 
 // LOCAL MODULES
 import { useEditorStore } from "@/store/editor-store";
+import { useSidePanelStore } from "@/store/side-panel-store";
+import { cn } from "@/lib/utils";
 
 // COMPONENTS
 import ActionButtonsBar from "@/components/code-editor/action-buttons-bar";
@@ -22,6 +24,7 @@ export function EditorPanel() {
   };
 
   const { editorTheme, boilerplate, programmingLanguage } = useEditorStore();
+  const { isOpen } = useSidePanelStore();
 
   function handleEditorWillMount(monaco: Monaco) {
     monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
@@ -32,10 +35,11 @@ export function EditorPanel() {
     });
   }
 
-  console.log(programmingLanguage.toLowerCase());
+  // console.log(programmingLanguage.toLowerCase());
+  console.log(programmingLanguage);
 
   return (
-    <div className="min-h-full w-3/4 border-x">
+    <div className={cn("min-h-full border-x", isOpen ? "w-3/4" : "w-full")}>
       <ResizablePanelGroup direction="vertical" className="w-full">
         <ResizablePanel defaultSize={60}>
           <ActionButtonsBar />

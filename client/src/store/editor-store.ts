@@ -13,7 +13,7 @@ type EditorStoreType = {
 
 export const useEditorStore = create<EditorStoreType>((set) => ({
   editorTheme: "vs-dark", // default editor theme
-  programmingLanguage: "javascript", // default programming language
+  programmingLanguage: "JavaScript", // default programming language
   boilerplate: `console.log("Hello, World!");`,
 
   setEditorTheme: (newTheme: CodeEditorTheme) => set({ editorTheme: newTheme }),

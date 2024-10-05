@@ -1,5 +1,10 @@
 // PACKAGES
-import { ChevronLeftIcon, HomeIcon, MoveRightIcon } from "lucide-react";
+import {
+  ChevronLeftIcon,
+  HomeIcon,
+  MoveRightIcon,
+  PanelLeftCloseIcon,
+} from "lucide-react";
 import { LoaderIcon } from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
@@ -9,11 +14,12 @@ import rehypeRaw from "rehype-raw";
 import { encodeId } from "@/lib/url-encode-decode";
 import { cn } from "@/lib/utils";
 import { CreatedQuestionType } from "@/types";
+import { useSidePanelStore } from "@/store/side-panel-store";
 
 // COMPONENTS
 import AddProblemStatementSheet from "@/components/sheets/add-problem-statement-sheet";
 import EditQuestionSheet from "@/components/sheets/edit-question-sheet";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 type ProblemDetailsProps = {
   isLoading?: boolean;
@@ -27,9 +33,15 @@ export default function ProblemDetails({
   error,
 }: ProblemDetailsProps) {
   const encodedFolderId = encodeId(question ? question?.folderId : "");
+  const { isOpen, togglePanel } = useSidePanelStore();
 
   return (
-    <div className="min-h-full w-1/4 space-y-4 px-2">
+    <div
+      className={cn(
+        "min-h-full space-y-4 px-2",
+        isOpen ? "block w-1/4" : "hidden",
+      )}
+    >
       <div className="flex h-14 items-center justify-between border-b">
         <div className="flex items-center gap-2">
           <Link
@@ -55,7 +67,12 @@ export default function ProblemDetails({
             <ChevronLeftIcon size={24} />
           </Link>
         </div>
-        <EditQuestionSheet />
+        <div className="flex items-center gap-2">
+          <EditQuestionSheet />
+          <Button size={"sm"} variant={"secondary"} onClick={togglePanel}>
+            <PanelLeftCloseIcon size={20} />
+          </Button>
+        </div>
       </div>
       {error ? (
         <p>{error.message}</p>
