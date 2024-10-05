@@ -1,4 +1,5 @@
 // PACKAGES
+import { Loader2Icon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -95,7 +96,13 @@ export default function EditQuestionForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">
+          {mutation.isPending ? (
+            <Loader2Icon className="animate-spin" />
+          ) : (
+            "Submit"
+          )}
+        </Button>
       </form>
     </Form>
   );

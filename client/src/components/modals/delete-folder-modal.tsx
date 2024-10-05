@@ -65,7 +65,7 @@ export default function DeleteFolderModal() {
             {mutation.isPending ? (
               <Loader2Icon className="animate-spin" />
             ) : (
-              "Create Folder"
+              "Delete Folder"
             )}
           </Button>
         </form>

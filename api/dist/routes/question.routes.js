@@ -21,6 +21,6 @@ authRouter.post("/create-problem-statement", verify_token_middleware_1.verifyTok
 /** */
 authRouter.put("/update-question/:questionId", verify_token_middleware_1.verifyTokenHandler, question_controllers_1.updateQuestionHandler);
 /** */
-authRouter.delete("/delete-question", verify_token_middleware_1.verifyTokenHandler, question_controllers_1.deleteQuestionHandler);
+authRouter.delete("/delete-question/:questionId", verify_token_middleware_1.verifyTokenHandler, question_controllers_1.deleteQuestionHandler);
 router.use("/question", authRouter);
 exports.default = router;

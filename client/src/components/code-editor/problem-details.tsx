@@ -42,7 +42,7 @@ export default function ProblemDetails({
         isOpen ? "block w-1/4" : "hidden",
       )}
     >
-      <div className="flex h-14 items-center justify-between border-b">
+      <div className="sticky top-0 flex h-14 items-center justify-between border-b bg-background">
         <div className="flex items-center gap-2">
           <Link
             to={`/dashboard`}
@@ -74,43 +74,45 @@ export default function ProblemDetails({
           </Button>
         </div>
       </div>
-      {error ? (
-        <p>{error.message}</p>
-      ) : (
-        <div>
-          {isLoading ? (
-            <div className="flex items-center gap-2 px-3">
-              <LoaderIcon className="size-5" />
-              <p>Loading...</p>
-            </div>
-          ) : (
-            <div className="space-y-4 px-3">
-              <div>
-                <h1 className="font-semibold">{question?.title}</h1>
+      <div className="h-[90vh] overflow-y-scroll rounded-md border p-3">
+        {error ? (
+          <p>{error.message}</p>
+        ) : (
+          <div>
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <LoaderIcon className="size-5" />
+                <p>Loading...</p>
               </div>
-              <div className="h-[0.5px] w-full bg-secondary" />
-              <div className="">
-                <div className="flex items-center gap-2 rounded-md border bg-secondary/30 px-3 py-4 text-lg font-semibold">
-                  Your problem statement
-                  <MoveRightIcon />
+            ) : (
+              <div className="space-y-4">
+                <div>
+                  <h1 className="font-semibold">{question?.title}</h1>
                 </div>
-                {question?.problemStatement ? (
-                  <ReactMarkdown
-                    rehypePlugins={[rehypeRaw]}
-                    className={"markdown__content overflow-x-scroll"}
-                  >
-                    {question?.problemStatement}
-                  </ReactMarkdown>
-                ) : (
-                  <div className="mt-3">
-                    <AddProblemStatementSheet />
+                <div className="h-[0.5px] w-full bg-secondary" />
+                <div className="">
+                  <div className="flex items-center gap-2 rounded-md border bg-secondary/30 px-3 py-4 text-lg font-semibold">
+                    Your problem statement
+                    <MoveRightIcon />
                   </div>
-                )}
+                  {question?.problemStatement ? (
+                    <ReactMarkdown
+                      rehypePlugins={[rehypeRaw]}
+                      className={"markdown__content overflow-x-scroll"}
+                    >
+                      {question?.problemStatement}
+                    </ReactMarkdown>
+                  ) : (
+                    <div className="mt-3">
+                      <AddProblemStatementSheet />
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

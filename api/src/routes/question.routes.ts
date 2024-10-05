@@ -19,42 +19,42 @@ const authRouter = express.Router();
 authRouter.get(
   "/questions/:folderId",
   verifyTokenHandler,
-  getAllQuestionsByFolderHandler,
+  getAllQuestionsByFolderHandler
 );
 
 /** */
 authRouter.get(
   "/question/:questionId",
   verifyTokenHandler,
-  getSingleQuestionByIdHandler,
+  getSingleQuestionByIdHandler
 );
 
 /** */
 authRouter.post(
   "/create-question-title",
   verifyTokenHandler,
-  createQuestionTitleHandler,
+  createQuestionTitleHandler
 );
 
 /** */
 authRouter.post(
   "/create-problem-statement",
   verifyTokenHandler,
-  createQuestionProblemStatementHandler,
+  createQuestionProblemStatementHandler
 );
 
 /** */
 authRouter.put(
   "/update-question/:questionId",
   verifyTokenHandler,
-  updateQuestionHandler,
+  updateQuestionHandler
 );
 
 /** */
 authRouter.delete(
-  "/delete-question",
+  "/delete-question/:questionId",
   verifyTokenHandler,
-  deleteQuestionHandler,
+  deleteQuestionHandler
 );
 
 router.use("/question", authRouter);

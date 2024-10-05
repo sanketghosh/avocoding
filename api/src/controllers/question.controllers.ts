@@ -11,7 +11,7 @@ import { db } from "../lib/prisma";
 
 export const getAllQuestionsByFolderHandler = async (
   req: Request,
-  res: Response,
+  res: Response
 ) => {
   const userId = req.userId;
   const { folderId } = req.params;
@@ -79,7 +79,7 @@ export const getAllQuestionsByFolderHandler = async (
  */
 export const getSingleQuestionByIdHandler = async (
   req: Request,
-  res: Response,
+  res: Response
 ) => {
   const { questionId } = req.params;
   const userId = req.userId;
@@ -137,7 +137,7 @@ export const getSingleQuestionByIdHandler = async (
 
 export const createQuestionTitleHandler = async (
   req: Request,
-  res: Response,
+  res: Response
 ) => {
   const userId = req.userId;
   const { title, folderId } = req.body;
@@ -214,7 +214,7 @@ export const createQuestionTitleHandler = async (
  */
 export const createQuestionProblemStatementHandler = async (
   req: Request,
-  res: Response,
+  res: Response
 ) => {
   const userId = req.userId;
   const { questionId, problemStatement } = req.body;
@@ -337,4 +337,49 @@ export const updateQuestionHandler = async (req: Request, res: Response) => {
  *
  */
 
-export const deleteQuestionHandler = (req: Request, res: Response) => {};
+export const deleteQuestionHandler = async (req: Request, res: Response) => {
+  try {
+    const { questionId } = req.params;
+    const userId = req.userId;
+
+    // check if the question exists
+    const question = await db.question.findUnique({
+      where: {
+        id: questionId,
+      },
+      include: {
+        folder: true, // to access the folder and ensure user owns it
+      },
+    });
+
+    // if question does not exist
+    if (!question) {
+      return res.status(404).json({
+        message: "ERROR! Question has not been found.",
+      });
+    }
+
+    // check if the user owns the folder where the question belongs
+    if (question.folder.userId !== userId) {
+      return res.status(403).json({
+        message: "ERROR! Unauthorized to delete this question.",
+      });
+    }
+
+    // delete the question (with cascading to delete associated code)
+    await db.question.delete({
+      where: {
+        id: questionId,
+      },
+    });
+
+    return res.status(200).json({
+      message: "SUCCESS! Question and its code deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Error creating problem statement:", error);
+    return res.status(500).json({
+      message: "ERROR! Internal server error.",
+    });
+  }
+};

@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/selects/language-selector";
 import EditorThemeSelector from "@/components/selects/editor-theme-selector";
+import DeleteQuestionModal from "../modals/delete-question-modal";
 
 export default function ActionButtonsBar() {
   const { isOpen, togglePanel } = useSidePanelStore();
@@ -51,14 +52,7 @@ export default function ActionButtonsBar() {
             <SaveIcon size={20} />
             <p>Save</p>
           </Button>
-          <Button
-            size={"sm"}
-            variant={"destructive"}
-            className="flex items-center gap-1"
-          >
-            <Trash2Icon size={20} />
-            <p>Delete</p>
-          </Button>
+          <DeleteQuestionModal />
         </div>
       </div>
     </div>

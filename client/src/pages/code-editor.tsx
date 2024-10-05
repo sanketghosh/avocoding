@@ -26,10 +26,8 @@ export default function CodeEditor() {
       getSingleQuestionAction.getSingleQuestionAction({
         questionId: decodedQuestionId,
       }),
-    staleTime: 5000,
+    staleTime: 10, // stale-time is very less as i want to fetch data as soon as i am redirected to this page.
   });
-
-  // console.log(data);
 
   // pushing data in question global state
   useEffect(() => {

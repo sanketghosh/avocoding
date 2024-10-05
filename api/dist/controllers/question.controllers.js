@@ -303,5 +303,46 @@ exports.updateQuestionHandler = updateQuestionHandler;
  *
  *
  */
-const deleteQuestionHandler = (req, res) => { };
+const deleteQuestionHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { questionId } = req.params;
+        const userId = req.userId;
+        // check if the question exists
+        const question = yield prisma_1.db.question.findUnique({
+            where: {
+                id: questionId,
+            },
+            include: {
+                folder: true, // to access the folder and ensure user owns it
+            },
+        });
+        // if question does not exist
+        if (!question) {
+            return res.status(404).json({
+                message: "ERROR! Question has not been found.",
+            });
+        }
+        // check if the user owns the folder where the question belongs
+        if (question.folder.userId !== userId) {
+            return res.status(403).json({
+                message: "ERROR! Unauthorized to delete this question.",
+            });
+        }
+        // delete the question (with cascading to delete associated code)
+        yield prisma_1.db.question.delete({
+            where: {
+                id: questionId,
+            },
+        });
+        return res.status(200).json({
+            message: "SUCCESS! Question and its code deleted successfully.",
+        });
+    }
+    catch (error) {
+        console.error("Error creating problem statement:", error);
+        return res.status(500).json({
+            message: "ERROR! Internal server error.",
+        });
+    }
+});
 exports.deleteQuestionHandler = deleteQuestionHandler;
