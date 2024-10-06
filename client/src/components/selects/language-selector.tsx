@@ -1,5 +1,5 @@
 // LOCAL MODULES
-import { useEditorStore } from "@/store/editor-store";
+import { useCodeStore } from "@/store/code-store";
 import { ProgrammingLanguageType } from "@/types";
 
 // COMPONENTS
@@ -23,7 +23,7 @@ const SUPPORTED_PROGRAMMING_LANGUAGES: ProgrammingLanguageType[] = [
 ];
 
 export default function LanguageSelector() {
-  const { programmingLanguage, setProgrammingLanguage } = useEditorStore();
+  const { programmingLanguage, setProgrammingLanguage } = useCodeStore();
 
   return (
     <Select

@@ -1,5 +1,5 @@
 // LOCAL MODULES
-import { useEditorStore } from "@/store/editor-store";
+import { useCodeStore } from "@/store/code-store";
 import { CodeEditorTheme } from "@/types";
 
 // COMPONENTS
@@ -14,7 +14,7 @@ import {
 const themes: CodeEditorTheme[] = ["vs-dark", "light"];
 
 export default function EditorThemeSelector() {
-  const { editorTheme, setEditorTheme } = useEditorStore();
+  const { editorTheme, setEditorTheme } = useCodeStore();
 
   return (
     <Select

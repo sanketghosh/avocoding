@@ -44,14 +44,7 @@ export default function ActionButtonsBar() {
           {/* <ProgrammingLanguageSelector /> */}
           <LanguageSelector />
           <EditorThemeSelector />
-          <Button
-            size={"sm"}
-            variant={"secondary"}
-            className="flex items-center gap-1"
-          >
-            <SaveIcon size={20} />
-            <p>Save</p>
-          </Button>
+
           <DeleteQuestionModal />
         </div>
       </div>

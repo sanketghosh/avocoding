@@ -2,7 +2,7 @@
 import Editor, { Monaco } from "@monaco-editor/react";
 
 // LOCAL MODULES
-import { useEditorStore } from "@/store/editor-store";
+import { useCodeStore } from "@/store/code-store";
 import { useSidePanelStore } from "@/store/side-panel-store";
 import { cn } from "@/lib/utils";
 
@@ -23,20 +23,41 @@ export function EditorPanel() {
     automaticLayout: true,
   };
 
-  const { editorTheme, boilerplate, programmingLanguage } = useEditorStore();
+  const {
+    editorTheme,
+    boilerplate,
+    programmingLanguage,
+    setCode,
+    code,
+    isEditing,
+    startEditing,
+  } = useCodeStore();
   const { isOpen } = useSidePanelStore();
 
-  function handleEditorWillMount(monaco: Monaco) {
+  const handleEditorWillMount = (monaco: Monaco) => {
     monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
       target: monaco.languages.typescript.ScriptTarget.Latest,
       module: monaco.languages.typescript.ModuleKind.ES2015,
       allowNonTsExtensions: true,
       lib: ["es2018"],
     });
-  }
+  };
+
+  const handleEditorChange = (value: string | undefined) => {
+    if (value !== undefined) {
+      setCode(value);
+    }
+  };
+
+  const handleEditorDidMount = () => {
+    startEditing();
+  };
+
+  const editorValue = isEditing ? code : boilerplate;
 
   // console.log(programmingLanguage.toLowerCase());
-  console.log(programmingLanguage);
+  // console.log(programmingLanguage);
+  // console.log(code);
 
   return (
     <div className={cn("min-h-full border-x", isOpen ? "w-3/4" : "w-full")}>
@@ -46,10 +67,12 @@ export function EditorPanel() {
           <Editor
             height={"100%"}
             width={"100%"}
-            value={boilerplate}
+            value={editorValue}
             language={programmingLanguage.toLowerCase()}
             theme={editorTheme}
             options={options}
+            onChange={(value) => handleEditorChange(value)}
+            onMount={handleEditorDidMount}
             beforeMount={handleEditorWillMount}
             className="monaco-editor"
           />

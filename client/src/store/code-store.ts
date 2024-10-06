@@ -1,30 +1,48 @@
 import { CodeEditorTheme, ProgrammingLanguageType } from "@/types";
 import { create } from "zustand";
 
-type EditorStoreType = {
+type CodeStoreType = {
   editorTheme: CodeEditorTheme;
   programmingLanguage: ProgrammingLanguageType;
   boilerplate: string;
+  code: string;
+  isEditing: boolean;
 
   setEditorTheme: (newTheme: CodeEditorTheme) => void;
   setProgrammingLanguage: (newLanguage: ProgrammingLanguageType) => void;
   setBoilerplate: (newBoilerplate: string) => void;
+  setCode: (newCode: string) => void;
+  startEditing: () => void;
 };
 
-export const useEditorStore = create<EditorStoreType>((set) => ({
+export const useCodeStore = create<CodeStoreType>((set) => ({
   editorTheme: "vs-dark", // default editor theme
   programmingLanguage: "JavaScript", // default programming language
   boilerplate: `console.log("Hello, World!");`,
+  code: `console.log("Hello, World!");`,
+  isEditing: false,
 
   setEditorTheme: (newTheme: CodeEditorTheme) => set({ editorTheme: newTheme }),
   setProgrammingLanguage: (newLanguage: ProgrammingLanguageType) =>
     set({
       programmingLanguage: newLanguage,
       boilerplate: getBoilerplate(newLanguage),
+      code: getBoilerplate(newLanguage),
+      isEditing: false,
     }),
   setBoilerplate: (newBoilerplate: string) =>
     set({
       boilerplate: newBoilerplate,
+    }),
+
+  setCode: (newCode: string) =>
+    set({
+      code: newCode,
+    }),
+
+  startEditing: () =>
+    set({
+      isEditing: true,
     }),
 }));
 
