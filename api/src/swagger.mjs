@@ -14,6 +14,7 @@ const routes = [
   "./routes/auth.routes.ts",
   "./routes/folder.routes.ts",
   "./routes/question.routes.ts",
+  "./routes/code.routes.ts",
 ];
 
 swaggerAutoGen()(outputFile, routes, doc);

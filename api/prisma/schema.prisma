@@ -61,7 +61,7 @@ model Question {
 
 model Code {
   id          String  @id @default(cuid())
-  langauge    String
+  language    String
   content     String
   editorTheme String?
 

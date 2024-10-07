@@ -30,9 +30,11 @@ app.use((0, cors_1.default)({
 app.use("/api/v1", routes_1.authRoutes);
 app.use("/api/v1", routes_1.folderRoutes);
 app.use("/api/v1", routes_1.questionRoutes);
+app.use("/api/v1", routes_1.codeRoutes);
 // SWAGGER
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
 // APP LISTENER
 app.listen(PORT, () => {
     console.log(`SUCCESS: API server running on http://localhost:${PORT}`);
+    console.log(`API DOCUMENTATION: http://localhost:${PORT}/api-docs`);
 });
