@@ -1,30 +1,32 @@
 import { API_BASE_URL } from "@/constants";
 import { ApiError } from "@/lib/handle-api-error";
-import { FolderSchema } from "@/schemas";
-import * as z from "zod";
 
 type DataType = {
-  formData: z.infer<typeof FolderSchema>;
-  folderId: string | undefined;
+  content: string;
+  language: string;
+  editorTheme: string;
+  questionId: string;
 };
 
-export const updateFolderDetailsHandler = async ({
-  folderId,
-  formData,
+export const saveOrUpdateCodeAction = async ({
+  content,
+  editorTheme,
+  language,
+  questionId,
 }: DataType) => {
-  // console.log(folderId);
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/v1/folder/update-folder-details/${folderId}`,
-      {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    const response = await fetch(`${API_BASE_URL}/api/v1/code/${questionId}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        content,
+        editorTheme,
+        language,
+      }),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -32,6 +34,7 @@ export const updateFolderDetailsHandler = async ({
     }
 
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     if (error instanceof ApiError) {

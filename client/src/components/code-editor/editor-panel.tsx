@@ -1,18 +1,23 @@
 // PACKAGES
 import Editor, { Monaco } from "@monaco-editor/react";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
 // LOCAL MODULES
+import { decodeId } from "@/lib/url-encode-decode";
+import { cn } from "@/lib/utils";
 import { useCodeStore } from "@/store/code-store";
 import { useSidePanelStore } from "@/store/side-panel-store";
-import { cn } from "@/lib/utils";
 
 // COMPONENTS
+import * as getCodeAction from "@/actions/code-actions/get-code-action";
 import ActionButtonsBar from "@/components/code-editor/action-buttons-bar";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { useEffect } from "react";
 
 export function EditorPanel() {
   const options = {
@@ -28,11 +33,15 @@ export function EditorPanel() {
     boilerplate,
     programmingLanguage,
     setCode,
+    setEditorTheme,
+    setProgrammingLanguage,
     code,
     isEditing,
     startEditing,
   } = useCodeStore();
   const { isOpen } = useSidePanelStore();
+  const { id } = useParams<{ id: string }>();
+  const decodedQuestionId = decodeId(id!);
 
   const handleEditorWillMount = (monaco: Monaco) => {
     monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
@@ -52,6 +61,24 @@ export function EditorPanel() {
   const handleEditorDidMount = () => {
     startEditing();
   };
+
+  const { data, isSuccess } = useQuery({
+    queryKey: ["get-code"],
+    queryFn: () =>
+      getCodeAction.getCodeAction({ questionId: decodedQuestionId }),
+    staleTime: 5000,
+  });
+
+  console.log(data);
+
+  useEffect(() => {
+    if (isSuccess && data?.data) {
+      setCode(data?.data?.content);
+      setEditorTheme(data?.data?.editorTheme);
+      setProgrammingLanguage(data?.data?.language);
+      // setFolders(data?.data);
+    }
+  }, [isSuccess, data, setCode, setEditorTheme, setProgrammingLanguage]);
 
   const editorValue = isEditing ? code : boilerplate;
 

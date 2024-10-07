@@ -25,6 +25,11 @@ export const editQuestionAction = async ({
       },
     );
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new ApiError(response.status, errorData.message);
+    }
+
     const data = await response.json();
     return data;
   } catch (error) {

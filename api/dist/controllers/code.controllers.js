@@ -57,6 +57,7 @@ const saveOrUpdateCodeHandler = (req, res) => __awaiter(void 0, void 0, void 0, 
             });
             return res.status(200).json({
                 message: "SUCCESS: Code has been updated.",
+                data: updatedCode,
             });
         }
         else {
@@ -75,6 +76,7 @@ const saveOrUpdateCodeHandler = (req, res) => __awaiter(void 0, void 0, void 0, 
             });
             return res.status(201).json({
                 message: "SUCCESS! New code has been added.",
+                data: newCode,
             });
         }
     }

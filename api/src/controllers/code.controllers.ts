@@ -52,6 +52,7 @@ export const saveOrUpdateCodeHandler = async (req: Request, res: Response) => {
 
       return res.status(200).json({
         message: "SUCCESS: Code has been updated.",
+        data: updatedCode,
       });
     } else {
       // create new code if it does not exist
@@ -69,6 +70,7 @@ export const saveOrUpdateCodeHandler = async (req: Request, res: Response) => {
       });
       return res.status(201).json({
         message: "SUCCESS! New code has been added.",
+        data: newCode,
       });
     }
   } catch (error) {

@@ -1,35 +1,22 @@
 import { API_BASE_URL } from "@/constants";
 import { ApiError } from "@/lib/handle-api-error";
-import { QuestionProblemStatementSchema } from "@/schemas";
-import * as z from "zod";
 
 type DataType = {
-  questionId?: string;
-  formData: z.infer<typeof QuestionProblemStatementSchema>;
+  questionId: string;
 };
 
-export const createQuestionProblemStatementAction = async ({
-  formData,
-  questionId,
-}: DataType) => {
-  console.log({
-    ...formData,
-    questionId,
-  });
-
+export const getCodeAction = async ({ questionId }: DataType) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/api/v1/question/create-problem-statement`,
+      `${API_BASE_URL}/api/v1/code/get-code/${questionId}`,
       {
-        method: "POST",
+        method: "GET",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ questionId, ...formData }),
       },
     );
-
     if (!response.ok) {
       const errorData = await response.json();
       throw new ApiError(response.status, errorData.message);

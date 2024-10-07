@@ -1,20 +1,16 @@
 // PACKAGES
-import {
-  PanelLeftOpenIcon,
-  PlayIcon,
-  SaveIcon,
-  Trash2Icon,
-} from "lucide-react";
+import { PanelLeftOpenIcon, PlayIcon } from "lucide-react";
 
 // LOCAL PACKAGES
-import { useSidePanelStore } from "@/store/side-panel-store";
 import { cn } from "@/lib/utils";
+import { useSidePanelStore } from "@/store/side-panel-store";
 
 // COMPONENTS
-import { Button } from "@/components/ui/button";
-import LanguageSelector from "@/components/selects/language-selector";
+import SaveCode from "@/components/code-editor/action-buttons/save-code";
+import DeleteQuestionModal from "@/components/modals/delete-question-modal";
 import EditorThemeSelector from "@/components/selects/editor-theme-selector";
-import DeleteQuestionModal from "../modals/delete-question-modal";
+import LanguageSelector from "@/components/selects/language-selector";
+import { Button } from "@/components/ui/button";
 
 export default function ActionButtonsBar() {
   const { isOpen, togglePanel } = useSidePanelStore();
@@ -44,7 +40,7 @@ export default function ActionButtonsBar() {
           {/* <ProgrammingLanguageSelector /> */}
           <LanguageSelector />
           <EditorThemeSelector />
-
+          <SaveCode />
           <DeleteQuestionModal />
         </div>
       </div>
