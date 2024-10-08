@@ -11,7 +11,7 @@ import { db } from "../lib/prisma";
 
 export const getAllQuestionsByFolderHandler = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   const userId = req.userId;
   const { folderId } = req.params;
@@ -79,7 +79,7 @@ export const getAllQuestionsByFolderHandler = async (
  */
 export const getSingleQuestionByIdHandler = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   const { questionId } = req.params;
   const userId = req.userId;
@@ -137,7 +137,7 @@ export const getSingleQuestionByIdHandler = async (
 
 export const createQuestionTitleHandler = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   const userId = req.userId;
   const { title, folderId } = req.body;
@@ -214,7 +214,7 @@ export const createQuestionTitleHandler = async (
  */
 export const createQuestionProblemStatementHandler = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   const userId = req.userId;
   const { questionId, problemStatement } = req.body;
@@ -348,7 +348,8 @@ export const deleteQuestionHandler = async (req: Request, res: Response) => {
         id: questionId,
       },
       include: {
-        folder: true, // to access the folder and ensure user owns it
+        folder: true,
+        code: true,
       },
     });
 
@@ -372,6 +373,15 @@ export const deleteQuestionHandler = async (req: Request, res: Response) => {
         id: questionId,
       },
     });
+
+    // delete the associated code
+    if (question.code && question.codeId) {
+      await db.code.delete({
+        where: {
+          id: question.codeId,
+        },
+      });
+    }
 
     return res.status(200).json({
       message: "SUCCESS! Question and its code deleted successfully.",

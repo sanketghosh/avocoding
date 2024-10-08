@@ -313,7 +313,8 @@ const deleteQuestionHandler = (req, res) => __awaiter(void 0, void 0, void 0, fu
                 id: questionId,
             },
             include: {
-                folder: true, // to access the folder and ensure user owns it
+                folder: true,
+                code: true,
             },
         });
         // if question does not exist
@@ -334,6 +335,14 @@ const deleteQuestionHandler = (req, res) => __awaiter(void 0, void 0, void 0, fu
                 id: questionId,
             },
         });
+        // delete the associated code
+        if (question.code && question.codeId) {
+            yield prisma_1.db.code.delete({
+                where: {
+                    id: question.codeId,
+                },
+            });
+        }
         return res.status(200).json({
             message: "SUCCESS! Question and its code deleted successfully.",
         });

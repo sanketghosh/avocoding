@@ -1,7 +1,11 @@
 import { API_BASE_URL } from "@/constants";
 import { ApiError } from "@/lib/handle-api-error";
 
-export const deleteQuestionAction = async (questionId: string) => {
+export const deleteQuestionAction = async ({
+  questionId,
+}: {
+  questionId?: string;
+}) => {
   try {
     const response = await fetch(
       `${API_BASE_URL}/api/v1/question/delete-question/${questionId}`,

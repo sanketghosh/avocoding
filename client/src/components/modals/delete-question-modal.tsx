@@ -1,25 +1,24 @@
 // PACKAGES
-import toast from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
-import { Loader2Icon, Trash2Icon } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2Icon, Trash2Icon } from "lucide-react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 // LOCAL MODULES
 import * as deleteQuestionAction from "@/actions/question-actions/delete-question-action";
 
 // COMPONENTS
+import ModalContentWrapper from "@/components/modals/modal-content-wrapper";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import ModalContentWrapper from "@/components/modals/modal-content-wrapper";
-import { useQuestionStore } from "@/store/question-store";
 import { encodeId } from "@/lib/url-encode-decode";
+import { useQuestionStore } from "@/store/question-store";
 
 export default function DeleteQuestionModal() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { question } = useQuestionStore();
-  //   console.log(question?.folderId);
 
   const encodedFolderId = encodeId(question ? question?.folderId : "");
 
@@ -39,7 +38,9 @@ export default function DeleteQuestionModal() {
 
   const handleDeleteQuestion = (event: React.FormEvent) => {
     event.preventDefault();
-    mutation.mutate(question?.id!);
+    mutation.mutate({
+      questionId: question?.id,
+    });
   };
 
   return (
@@ -60,7 +61,7 @@ export default function DeleteQuestionModal() {
       >
         <form onSubmit={handleDeleteQuestion}>
           <Button type="submit" disabled={false} variant={"destructive"}>
-            {false ? (
+            {mutation.isPending ? (
               <Loader2Icon className="animate-spin" />
             ) : (
               "Delete Question"

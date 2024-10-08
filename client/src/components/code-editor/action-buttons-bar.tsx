@@ -37,7 +37,6 @@ export default function ActionButtonsBar() {
           </Button>
         </div>
         <div className="flex items-center gap-2">
-          {/* <ProgrammingLanguageSelector /> */}
           <LanguageSelector />
           <EditorThemeSelector />
           <SaveCode />

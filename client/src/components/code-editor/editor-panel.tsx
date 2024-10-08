@@ -79,7 +79,7 @@ export function EditorPanel() {
     queryKey: ["get-code"],
     queryFn: () =>
       getCodeAction.getCodeAction({ questionId: decodedQuestionId }),
-    staleTime: 10,
+    staleTime: 0,
     // enabled: !!decodedQuestionId,
   });
 
@@ -87,18 +87,11 @@ export function EditorPanel() {
 
   useEffect(() => {
     if (isSuccess && data?.data) {
-      // console.log({
-      //   code: data?.data?.content,
-      //   editorTheme: data?.data?.editorTheme,
-      //   programmingLang: data?.data?.language,
-      // });
-
       if (!isEditing) {
         setEditorValue(data?.data?.content);
       }
       setEditorTheme(data?.data?.editorTheme);
       setProgrammingLanguage(data?.data?.language);
-      // setFolders(data?.data);
     }
   }, [
     isSuccess,
@@ -108,10 +101,6 @@ export function EditorPanel() {
     setEditorValue,
     isEditing,
   ]);
-
-  // console.log(programmingLanguage.toLowerCase());
-  // console.log(programmingLanguage);
-  // console.log(code);
 
   const baseEditorVal = isEditing ? code : boilerplate;
   // const editorValue = isEditing ? data?.data?.content : boilerplate;
