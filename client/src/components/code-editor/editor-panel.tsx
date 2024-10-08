@@ -35,7 +35,7 @@ export function EditorPanel() {
     setCode,
     setEditorTheme,
     setProgrammingLanguage,
-    code,
+    // code,
     isEditing,
     startEditing,
   } = useCodeStore();
@@ -44,6 +44,9 @@ export function EditorPanel() {
   const decodedQuestionId = decodeId(id!);
 
   const [editorValue, setEditorValue] = useState<string | undefined>(undefined);
+  const [previousCode, setPreviousCode] = useState<string | undefined>(
+    undefined,
+  );
   // const editorValueRef = useRef<string | undefined>(undefined);
 
   const handleEditorWillMount = (monaco: Monaco) => {
@@ -94,6 +97,7 @@ export function EditorPanel() {
       }
       setEditorTheme(data?.data?.editorTheme);
       setProgrammingLanguage(data?.data?.language);
+      setPreviousCode(data?.data?.content);
     }
   }, [
     isSuccess,
@@ -102,7 +106,6 @@ export function EditorPanel() {
     setProgrammingLanguage,
     setEditorValue,
     isEditing,
-    setCode,
   ]);
 
   // const baseEditorVal = isEditing ? code : boilerplate;
@@ -113,7 +116,10 @@ export function EditorPanel() {
     <div className={cn("min-h-full border-x", isOpen ? "w-3/4" : "w-full")}>
       <ResizablePanelGroup direction="vertical" className="w-full">
         <ResizablePanel defaultSize={60}>
-          <ActionButtonsBar />
+          <ActionButtonsBar
+            previousCode={previousCode}
+            editorValue={editorValue}
+          />
           <Editor
             height={"100%"}
             width={"100%"}

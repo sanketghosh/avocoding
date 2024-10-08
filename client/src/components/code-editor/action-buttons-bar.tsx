@@ -1,5 +1,5 @@
 // PACKAGES
-import { PanelLeftOpenIcon, PlayIcon } from "lucide-react";
+import { PanelLeftOpenIcon } from "lucide-react";
 
 // LOCAL PACKAGES
 import { cn } from "@/lib/utils";
@@ -11,8 +11,17 @@ import DeleteQuestionModal from "@/components/modals/delete-question-modal";
 import EditorThemeSelector from "@/components/selects/editor-theme-selector";
 import LanguageSelector from "@/components/selects/language-selector";
 import { Button } from "@/components/ui/button";
+import RunCode from "./action-buttons/run-code";
 
-export default function ActionButtonsBar() {
+type DataTypeProps = {
+  editorValue?: string;
+  previousCode?: string;
+};
+
+export default function ActionButtonsBar({
+  editorValue,
+  previousCode,
+}: DataTypeProps) {
   const { isOpen, togglePanel } = useSidePanelStore();
 
   return (
@@ -27,19 +36,12 @@ export default function ActionButtonsBar() {
           >
             <PanelLeftOpenIcon size={20} />
           </Button>
-          <Button
-            size={"sm"}
-            className="flex items-center gap-1 bg-green-800/20 text-green-500 hover:bg-green-800/30"
-            variant={"secondary"}
-          >
-            <PlayIcon size={20} />
-            <p>Run Code</p>
-          </Button>
+          <RunCode />
         </div>
         <div className="flex items-center gap-2">
           <LanguageSelector />
           <EditorThemeSelector />
-          <SaveCode />
+          <SaveCode editorValue={editorValue} previousCode={previousCode} />
           <DeleteQuestionModal />
         </div>
       </div>
