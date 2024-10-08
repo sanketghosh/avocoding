@@ -85,10 +85,10 @@ export function EditorPanel() {
     enabled: !!decodedQuestionId,
   });
 
-  console.log(data);
-
   useEffect(() => {
     if (isSuccess && data?.data) {
+      console.log(data?.data);
+
       if (!isEditing) {
         setEditorValue(data?.data?.content);
       }
@@ -105,8 +105,9 @@ export function EditorPanel() {
     setCode,
   ]);
 
-  const baseEditorVal = isEditing ? code : boilerplate;
+  // const baseEditorVal = isEditing ? code : boilerplate;
   // const editorValue = isEditing ? data?.data?.content : boilerplate;
+  const displayValue = editorValue === "" ? "" : editorValue || boilerplate;
 
   return (
     <div className={cn("min-h-full border-x", isOpen ? "w-3/4" : "w-full")}>
@@ -116,7 +117,7 @@ export function EditorPanel() {
           <Editor
             height={"100%"}
             width={"100%"}
-            value={editorValue || baseEditorVal}
+            value={displayValue}
             language={programmingLanguage.toLowerCase()}
             theme={editorTheme}
             options={options}
