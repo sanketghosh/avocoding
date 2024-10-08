@@ -127,7 +127,7 @@ export const getCodeHandler = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json({
-      message: "ERROR! Code has been fetched.",
+      message: "SUCCESS! Code has been fetched.",
       data: question.code,
     });
   } catch (error) {

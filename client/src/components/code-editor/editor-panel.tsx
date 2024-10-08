@@ -1,11 +1,10 @@
 // PACKAGES
 import Editor, { Monaco } from "@monaco-editor/react";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // LOCAL MODULES
-import { debounce } from "@/lib/debounce";
 import { decodeId } from "@/lib/url-encode-decode";
 import { cn } from "@/lib/utils";
 import { useCodeStore } from "@/store/code-store";
@@ -45,6 +44,7 @@ export function EditorPanel() {
   const decodedQuestionId = decodeId(id!);
 
   const [editorValue, setEditorValue] = useState<string | undefined>(undefined);
+  // const editorValueRef = useRef<string | undefined>(undefined);
 
   const handleEditorWillMount = (monaco: Monaco) => {
     monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
@@ -55,35 +55,37 @@ export function EditorPanel() {
     });
   };
 
-  // const handleEditorChange = (value: string | undefined) => {
-  //   if (value !== undefined) {
-  //     setCode(value);
-  //   }
-  // };
+  // const handleEditorChange = useCallback(
+  //   debounce((value: string | undefined) => {
+  //     if (value !== undefined) {
+  //       setEditorValue(value);
+  //       setCode(value);
+  //       // editorValueRef.current = value;
+  //     }
+  //   }, 5000),
+  //   [setCode],
+  // );
 
-  const handleEditorChange = useCallback(
-    debounce((value: string | undefined) => {
-      if (value !== undefined) {
-        setEditorValue(value);
-        setCode(value);
-      }
-    }, 5000),
-    [setCode],
-  );
+  const handleEditorChange = (value: string | undefined) => {
+    if (value !== undefined) {
+      setEditorValue(value);
+      setCode(value);
+    }
+  };
 
   const handleEditorDidMount = () => {
     startEditing();
   };
 
   const { data, isSuccess } = useQuery({
-    queryKey: ["get-code"],
+    queryKey: ["get-code", decodedQuestionId],
     queryFn: () =>
       getCodeAction.getCodeAction({ questionId: decodedQuestionId }),
     staleTime: 0,
-    // enabled: !!decodedQuestionId,
+    enabled: !!decodedQuestionId,
   });
 
-  // console.log(data);
+  console.log(data);
 
   useEffect(() => {
     if (isSuccess && data?.data) {
@@ -100,6 +102,7 @@ export function EditorPanel() {
     setProgrammingLanguage,
     setEditorValue,
     isEditing,
+    setCode,
   ]);
 
   const baseEditorVal = isEditing ? code : boilerplate;

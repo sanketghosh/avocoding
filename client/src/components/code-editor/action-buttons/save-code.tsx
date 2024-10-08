@@ -33,7 +33,7 @@ export default function SaveCode() {
       setCode(data?.data?.content);
       setEditorTheme(data?.data?.editorTheme);
       setProgrammingLanguage(data?.data?.language);
-      // console.log(data);
+      console.log(data);
       await queryClient.invalidateQueries({
         queryKey: ["get-code"],
       });
@@ -46,7 +46,7 @@ export default function SaveCode() {
   const handleSaveCode = (event: React.FormEvent) => {
     event.preventDefault();
     mutation.mutate({
-      content: code,
+      content: code!,
       editorTheme: editorTheme,
       language: programmingLanguage,
       questionId: decodedQuestionId,

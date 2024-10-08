@@ -16,7 +16,6 @@ export default function CodeEditor() {
   const { id } = useParams<{ id: string }>();
 
   const decodedQuestionId = decodeId(id!);
-  // console.log("@@@ CODE EDITOR: ", decodedQuestionId);
 
   const { setQuestion, question } = useQuestionStore();
 
