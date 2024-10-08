@@ -20,15 +20,16 @@ export default function HeroSection() {
       </div>
 
       <div className="mx-auto max-w-3xl text-center">
-        <h1 className="block text-4xl font-medium text-gray-200 sm:text-5xl md:text-6xl lg:text-7xl">
-          Now it's easier than ever to build products
+        <h1 className="block text-4xl font-medium text-gray-200 sm:text-5xl md:text-6xl">
+          Code without any local configuration, totally online.
         </h1>
       </div>
 
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-lg text-white/70">
-          Preline is a large open-source project, crafted with Tailwind CSS
-          framework by Hmlstream.
+          Avocoding allows you to write code inside your browser without
+          downloading anything or local download. Our platform supports multiple
+          programming language.
         </p>
       </div>
 

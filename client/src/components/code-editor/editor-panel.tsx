@@ -1,7 +1,7 @@
 // PACKAGES
 import Editor, { Monaco } from "@monaco-editor/react";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // LOCAL MODULES
@@ -44,6 +44,8 @@ export function EditorPanel() {
   const { id } = useParams<{ id: string }>();
   const decodedQuestionId = decodeId(id!);
 
+  const [editorValue, setEditorValue] = useState<string | undefined>(undefined);
+
   const handleEditorWillMount = (monaco: Monaco) => {
     monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
       target: monaco.languages.typescript.ScriptTarget.Latest,
@@ -62,6 +64,7 @@ export function EditorPanel() {
   const handleEditorChange = useCallback(
     debounce((value: string | undefined) => {
       if (value !== undefined) {
+        setEditorValue(value);
         setCode(value);
       }
     }, 5000),
@@ -84,25 +87,34 @@ export function EditorPanel() {
 
   useEffect(() => {
     if (isSuccess && data?.data) {
-      console.log({
-        code: data?.data?.content,
-        editorTheme: data?.data?.editorTheme,
-        programmingLang: data?.data?.language,
-      });
+      // console.log({
+      //   code: data?.data?.content,
+      //   editorTheme: data?.data?.editorTheme,
+      //   programmingLang: data?.data?.language,
+      // });
 
-      setCode(data?.data?.content);
+      if (!isEditing) {
+        setEditorValue(data?.data?.content);
+      }
       setEditorTheme(data?.data?.editorTheme);
       setProgrammingLanguage(data?.data?.language);
       // setFolders(data?.data);
     }
-  }, [isSuccess, data, setCode, setEditorTheme, setProgrammingLanguage]);
+  }, [
+    isSuccess,
+    data,
+    setEditorTheme,
+    setProgrammingLanguage,
+    setEditorValue,
+    isEditing,
+  ]);
 
   // console.log(programmingLanguage.toLowerCase());
   // console.log(programmingLanguage);
   // console.log(code);
 
+  const baseEditorVal = isEditing ? code : boilerplate;
   // const editorValue = isEditing ? data?.data?.content : boilerplate;
-  const editorValue = isEditing ? data?.data?.content : boilerplate;
 
   return (
     <div className={cn("min-h-full border-x", isOpen ? "w-3/4" : "w-full")}>
@@ -112,7 +124,7 @@ export function EditorPanel() {
           <Editor
             height={"100%"}
             width={"100%"}
-            value={editorValue}
+            value={editorValue || baseEditorVal}
             language={programmingLanguage.toLowerCase()}
             theme={editorTheme}
             options={options}
