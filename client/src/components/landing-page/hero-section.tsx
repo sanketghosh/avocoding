@@ -1,5 +1,6 @@
-import { GithubIcon } from "lucide-react";
-import React from "react";
+// PACKAGES
+import { ChevronRightIcon, GithubIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function HeroSection() {
   return (
@@ -32,26 +33,13 @@ export default function HeroSection() {
       </div>
 
       <div className="text-center">
-        <a
-          className="inline-flex items-center justify-center gap-x-3 rounded-full border border-transparent bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3 text-center text-sm font-medium text-white shadow-lg shadow-transparent hover:shadow-blue-700/50 focus:shadow-blue-700/50 focus:outline-none"
-          href="#"
+        <Link
+          className="inline-flex items-center justify-center gap-x-2 rounded-full border border-transparent bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3 text-center text-base font-medium text-white shadow-lg shadow-transparent hover:from-violet-600 hover:to-blue-600 hover:shadow-blue-700/50 focus:shadow-blue-700/50 focus:outline-none"
+          to="/auth"
         >
           Get started
-          <svg
-            className="size-4 shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="m9 18 6-6-6-6" />
-          </svg>
-        </a>
+          <ChevronRightIcon size={22} />
+        </Link>
       </div>
     </div>
   );

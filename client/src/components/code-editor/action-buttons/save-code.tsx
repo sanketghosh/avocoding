@@ -1,5 +1,5 @@
 // PACKAGES
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2Icon, SaveIcon } from "lucide-react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 export default function SaveCode() {
   const { id } = useParams<{ id: string }>();
   const decodedQuestionId = decodeId(id!);
+  const queryClient = useQueryClient();
 
   const {
     setCode,
@@ -33,6 +34,9 @@ export default function SaveCode() {
       setEditorTheme(data?.data?.editorTheme);
       setProgrammingLanguage(data?.data?.language);
       // console.log(data);
+      await queryClient.invalidateQueries({
+        queryKey: ["get-code"],
+      });
     },
     onError: (error) => {
       toast.error(error.message);

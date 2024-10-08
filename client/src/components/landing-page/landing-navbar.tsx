@@ -1,5 +1,8 @@
+// PACKAGES
 import { Link } from "react-router-dom";
-import HomeLink from "../links/home-link";
+
+// COMPONENTS
+import HomeLink from "@/components/links/home-link";
 
 export default function LandingNavbar() {
   return (
