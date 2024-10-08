@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { useCodeStore } from "@/store/code-store";
 import { PlayIcon } from "lucide-react";
 
-export default function RunCode() {
-  const { code } = useCodeStore();
+export default function RunCode({ editorValue }: { editorValue?: string }) {
+  const { programmingLanguage } = useCodeStore();
 
-  console.log("@@FROM RUN CODE", code);
+  console.log("@@FROM RUN CODE", { editorValue, programmingLanguage });
 
   return (
     <Button

@@ -12,12 +12,12 @@ import { useCodeStore } from "@/store/code-store";
 // COMPONENTS
 import { Button } from "@/components/ui/button";
 
-type DataTypeProps = {
+type SaveCodeProps = {
   editorValue?: string;
   previousCode?: string;
 };
 
-export default function SaveCode({ editorValue, previousCode }: DataTypeProps) {
+export default function SaveCode({ editorValue, previousCode }: SaveCodeProps) {
   const { id } = useParams<{ id: string }>();
   const decodedQuestionId = decodeId(id!);
   const queryClient = useQueryClient();

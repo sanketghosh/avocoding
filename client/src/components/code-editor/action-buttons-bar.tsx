@@ -13,7 +13,7 @@ import LanguageSelector from "@/components/selects/language-selector";
 import { Button } from "@/components/ui/button";
 import RunCode from "./action-buttons/run-code";
 
-type DataTypeProps = {
+type ActionButtonsBarProps = {
   editorValue?: string;
   previousCode?: string;
 };
@@ -21,7 +21,7 @@ type DataTypeProps = {
 export default function ActionButtonsBar({
   editorValue,
   previousCode,
-}: DataTypeProps) {
+}: ActionButtonsBarProps) {
   const { isOpen, togglePanel } = useSidePanelStore();
 
   return (
@@ -36,7 +36,7 @@ export default function ActionButtonsBar({
           >
             <PanelLeftOpenIcon size={20} />
           </Button>
-          <RunCode />
+          <RunCode editorValue={editorValue} />
         </div>
         <div className="flex items-center gap-2">
           <LanguageSelector />

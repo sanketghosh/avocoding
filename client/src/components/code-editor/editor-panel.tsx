@@ -110,6 +110,11 @@ export function EditorPanel() {
 
   // const baseEditorVal = isEditing ? code : boilerplate;
   // const editorValue = isEditing ? data?.data?.content : boilerplate;
+
+  useEffect(() => {
+    setEditorValue(boilerplate);
+  }, [boilerplate]);
+
   const displayValue = editorValue === "" ? "" : editorValue || boilerplate;
 
   return (
