@@ -1,33 +1,39 @@
 import * as executeCodeAction from "@/actions/code-execute/run-code";
 import { Button } from "@/components/ui/button";
 import { useCodeStore } from "@/store/code-store";
+import { useExecutedOutputStore } from "@/store/executed-output-store";
 import { useMutation } from "@tanstack/react-query";
-import { PlayIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Loader2Icon, PlayIcon } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function RunCode({ editorValue }: { editorValue?: string }) {
   const { programmingLanguage } = useCodeStore();
-  const [executedOutput, setExecutedOutput] = useState<string | undefined>(
-    undefined,
-  );
+  // const [executedOutput, setExecutedOutput] = useState<string | undefined>(
+  //   undefined,
+  // );
+  const { setExecutedOutput } = useExecutedOutputStore();
 
   // console.log("@@FROM RUN CODE", { editorValue, programmingLanguage });
 
-  const { data, mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: executeCodeAction.executeCodeAction,
     onSuccess: async (data) => {
       console.log(data);
+      setExecutedOutput(data?.run?.output);
+      // outputType(Object.keys(data?.run)[0]);
+      // setExecutedOutput(Object.keys(data?.run)[0] || "No Output");
     },
     onError: (error) => {
       console.log(error.message);
+      toast.error(error.message);
     },
   });
 
-  useEffect(() => {
-    // console.log(programmingLanguage);
-    // console.log(data?.run?.output);
-    setExecutedOutput(data?.run.output);
-  }, []);
+  // useEffect(() => {
+  //   // console.log(programmingLanguage);
+  //   // console.log(data?.run?.output);
+  //   setExecutedOutput(data?.run?.output);
+  // }, []);
 
   const handleRunCode = () => {
     mutate({
@@ -44,8 +50,12 @@ export default function RunCode({ editorValue }: { editorValue?: string }) {
       variant={"secondary"}
       onClick={handleRunCode}
     >
-      <PlayIcon size={20} />
-      <p>Run Code</p>
+      {isPending ? (
+        <Loader2Icon className="animate-spin" size={20} />
+      ) : (
+        <PlayIcon size={20} />
+      )}
+      {isPending ? <p>Running...</p> : <p>Run code</p>}
     </Button>
   );
 }

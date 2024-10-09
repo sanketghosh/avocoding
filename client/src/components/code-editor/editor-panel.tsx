@@ -18,8 +18,11 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { useExecutedOutputStore } from "@/store/executed-output-store";
 
 export function EditorPanel() {
+  const { executedOutput } = useExecutedOutputStore();
+
   const options = {
     fontSize: 18,
     fontWeight: "550",
@@ -142,8 +145,15 @@ export function EditorPanel() {
         <ResizablePanel defaultSize={20}>
           <div className="flex h-full items-center justify-center p-2">
             {/* <span className="font-semibold">Content</span> */}
-            <div className="h-full w-full rounded-md border">
-              <h1>command line</h1>
+            <div className="h-full w-full rounded-md border px-4 py-3">
+              <div className="font-jetbrains_mono">
+                <h1 className="font-extrabold uppercase text-teal-500">
+                  avocoding:
+                </h1>{" "}
+                <p className="font-medium text-foreground">
+                  {executedOutput} {"\n"}
+                </p>
+              </div>
             </div>
           </div>
         </ResizablePanel>
